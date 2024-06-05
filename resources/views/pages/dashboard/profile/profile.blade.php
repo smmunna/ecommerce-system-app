@@ -47,8 +47,12 @@
                                 </tr>
                             </tbody>
                         </table>
-                        <div class="text-center">
-                            <a href="{{ route('edit.profile') }}" class="btn btn-primary">Edit Profile</a>
+                        <div class="text-center pt-3">
+                            @if (auth()->user()->role == 'admin')
+                                <a href="{{ route('admin.edit.profile') }}" class="btn btn-primary">Edit Profile</a>
+                            @else
+                                <a href="{{ route('user.edit.profile') }}" class="btn btn-primary">Edit Profile</a>
+                            @endif
                         </div>
                     </div>
                 </div>
