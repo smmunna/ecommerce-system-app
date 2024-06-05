@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
@@ -52,6 +53,8 @@ Route::middleware('checkUserRole:admin')->prefix('admin')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('admin.dashboard');
     Route::get('/profile', [AuthController::class, 'profile'])->name('profile');
     Route::get('/edit-profile', [AuthController::class, 'editProfile'])->name('edit.profile');
+    // Categories
+    Route::resource('categories', CategoryController::class);
     // Add more routes as needed...
 });
 

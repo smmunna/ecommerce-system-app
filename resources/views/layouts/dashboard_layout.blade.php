@@ -27,8 +27,8 @@
     <link rel="stylesheet" href={{ asset('/dashboard_files/plugins/overlayScrollbars/css/OverlayScrollbars.min.css') }}>
     <!-- Daterange picker -->
     <link rel="stylesheet" href={{ asset('/dashboard_files/plugins/daterangepicker/daterangepicker.css') }}>
-    <!-- summernote -->
-    <link rel="stylesheet" href={{ asset('/dashboard_files/plugins/summernote/summernote-bs4.min.css') }}>
+    <!-- Add Summernote CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-bs4.min.css" rel="stylesheet">
     @stack('styles')
 </head>
 
@@ -95,7 +95,15 @@
     <script src={{ asset('/dashboard_files/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js') }}>
     </script>
     <!-- Summernote -->
-    <script src={{ asset('/dashboard_files/plugins/summernote/summernote-bs4.min.js') }}></script>
+    <!-- Add Summernote JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-bs4.min.js"></script>
+
+    <!-- Initialize Summernote -->
+    <script>
+        $(document).ready(function() {
+            $('.summernote').summernote();
+        });
+    </script>
     <!-- overlayScrollbars -->
     <script src={{ asset('/dashboard_files/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js') }}></script>
     <!-- AdminLTE App -->
