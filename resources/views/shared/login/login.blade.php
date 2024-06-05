@@ -26,10 +26,17 @@
         <div class="card">
             <div class="card-body login-card-body">
                 <p class="login-box-msg">Sign in to start your session</p>
+                @if (session('success'))
+                    <p id="success" class="text-center" style="color: green">Registration successfull</p>
+                @endif
+                @if (session('failure'))
+                    <p id="failure" class="text-center" style="color: red">Invalid username or password</p>
+                @endif
 
-                <form action="#" method="post">
+                <form action="{{ route('login.user') }}" method="post">
+                    @csrf
                     <div class="input-group mb-3">
-                        <input type="email" class="form-control" placeholder="Email">
+                        <input type="email" name="email" class="form-control" placeholder="Email" required>
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-envelope"></span>
@@ -37,7 +44,7 @@
                         </div>
                     </div>
                     <div class="input-group mb-3">
-                        <input type="password" class="form-control" placeholder="Password">
+                        <input type="password" name="password" class="form-control" placeholder="Password" required>
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-lock"></span>
@@ -65,7 +72,7 @@
                     <a href="#">I forgot my password</a>
                 </p>
                 <p class="mb-0">
-                    <a href="{{route('register')}}" class="text-center">Register a new membership</a>
+                    <a href="{{ route('register') }}" class="text-center">Register a new membership</a>
                 </p>
             </div>
             <!-- /.login-card-body -->
@@ -79,6 +86,27 @@
     <script src={{ asset('/dashboard_files/plugins/bootstrap/js/bootstrap.bundle.min.js') }}></script>
     <!-- AdminLTE App -->
     <script src={{ asset('/dashboard_files/dist/js/adminlte.min.js') }}></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Check if the success message element exists
+            var successMessage = document.getElementById("success");
+            if (successMessage) {
+                // Remove the success message after 3 seconds
+                setTimeout(function() {
+                    successMessage.remove();
+                }, 3000);
+            }
+
+            // Check if the failure message element exists
+            var failureMessage = document.getElementById("failure");
+            if (failureMessage) {
+                // Remove the failure message after 3 seconds
+                setTimeout(function() {
+                    failureMessage.remove();
+                }, 3000);
+            }
+        });
+    </script>
 </body>
 
 </html>

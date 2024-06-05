@@ -56,6 +56,27 @@
     <script src={{ asset('/template_files/js/nouislider.min.js') }}></script>
     <script src={{ asset('/template_files/js/jquery.zoom.min.js') }}></script>
     <script src={{ asset('/template_files/js/main.js') }}></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Check if the success message element exists
+            var successMessage = document.getElementById("success");
+            if (successMessage) {
+                // Remove the success message after 3 seconds
+                setTimeout(function() {
+                    successMessage.remove();
+                }, 3000);
+            }
+
+            // Check if the failure message element exists
+            var failureMessage = document.getElementById("failure");
+            if (failureMessage) {
+                // Remove the failure message after 3 seconds
+                setTimeout(function() {
+                    failureMessage.remove();
+                }, 3000);
+            }
+        });
+    </script>
     @stack('scripts')
 </body>
 

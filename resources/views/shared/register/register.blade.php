@@ -27,9 +27,21 @@
             <div class="card-body register-card-body">
                 <p class="login-box-msg">Register a new membership</p>
 
-                <form action="#" method="post">
+                <!-- Show validation errors -->
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+
+                <form action="{{ route('register.user') }}" method="post" enctype="multipart/form-data">
+                    @csrf
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control" placeholder="Full name">
+                        <input type="text" class="form-control" name="name" placeholder="Full name" value="{{ old('name') }}">
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-user"></span>
@@ -37,7 +49,7 @@
                         </div>
                     </div>
                     <div class="input-group mb-3">
-                        <input type="email" class="form-control" placeholder="Email">
+                        <input type="email" class="form-control" name="email" placeholder="Email" value="{{ old('email') }}">
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-envelope"></span>
@@ -45,7 +57,7 @@
                         </div>
                     </div>
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control" placeholder="Phone">
+                        <input type="text" class="form-control" name="phone" placeholder="Phone" value="{{ old('phone') }}">
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-phone"></span>
@@ -53,16 +65,15 @@
                         </div>
                     </div>
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control" placeholder="Address">
+                        <input type="text" class="form-control" name="address" placeholder="Address" value="{{ old('address') }}">
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-home"></span>
                             </div>
                         </div>
                     </div>
-
                     <div class="input-group mb-3">
-                        <input type="password" class="form-control" placeholder="Password">
+                        <input type="password" class="form-control" name="password" placeholder="Password">
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-lock"></span>
@@ -70,7 +81,7 @@
                         </div>
                     </div>
                     <div class="input-group mb-3">
-                        <input type="file" accept="image/*" class="form-control" placeholder="Image">
+                        <input type="file" accept="image/*" class="form-control" name="photo">
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-file"></span>

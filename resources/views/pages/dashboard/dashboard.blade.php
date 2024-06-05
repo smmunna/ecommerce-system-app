@@ -1,7 +1,13 @@
 @extends('layouts.dashboard_layout')
-@section('title','Dashboard')
+@section('title', 'Dashboard')
 @section('content')
 
-    <h3>My Dashboard</h3>
+    @if (auth()->user()->role == 'admin')
+        <h3>Admin Dashboard</h3>
+    @endif
+
+    @if (auth()->user()->role == 'user')
+        <h3>User Dashboard</h3>
+    @endif
 
 @endsection

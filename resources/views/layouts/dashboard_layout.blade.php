@@ -36,10 +36,10 @@
     <div class="wrapper">
 
         <!-- Preloader -->
-        <div class="preloader flex-column justify-content-center align-items-center">
+        {{-- <div class="preloader flex-column justify-content-center align-items-center">
             <img class="animation__shake" src={{ asset('/dashboard_files/dist/img/AdminLTELogo.png') }}
                 alt="AdminLTELogo" height="60" width="60">
-        </div>
+        </div> --}}
         <header>
             <!-- Header content goes here -->
             @include('shared.dashboard.navbar.navbar')
@@ -104,6 +104,27 @@
     <script src={{ asset('/dashboard_files/dist/js/demo.js') }}></script>
     <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
     <script src={{ asset('/dashboard_files/dist/js/pages/dashboard.js') }}></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Check if the success message element exists
+            var successMessage = document.getElementById("success");
+            if (successMessage) {
+                // Remove the success message after 3 seconds
+                setTimeout(function() {
+                    successMessage.remove();
+                }, 3000);
+            }
+
+            // Check if the failure message element exists
+            var failureMessage = document.getElementById("failure");
+            if (failureMessage) {
+                // Remove the failure message after 3 seconds
+                setTimeout(function() {
+                    failureMessage.remove();
+                }, 3000);
+            }
+        });
+    </script>
     @stack('scripts')
 </body>
 
