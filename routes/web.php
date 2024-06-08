@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BrandController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProductController;
@@ -36,10 +37,12 @@ Route::post('/login', [AuthController::class, 'authentication'])->name('login.us
 Route::get('/register', [UserController::class, 'create'])->name('register');
 Route::post('/register', [UserController::class, 'store'])->name('register.user');
 
-
-Route::get('/products-details', function () {
-    return view('pages.product.product');
-});
+// Product details
+Route::get('/products-details/{slug}', [ProductController::class, 'oneProductDetails'])->name('product.details');
+// Add to cart
+Route::post('/add-to-cart', [CartController::class, 'addToCart'])->name('addToCart');
+Route::delete('/delete-from-cart/{id}', [CartController::class, 'deleteFromCart'])->name('deleteFromCart');
+Route::delete('/update-cart', [CartController::class, 'updateCart'])->name('updateCart');
 
 Route::get('/checkout', function () {
     return view('pages.checkout.checkout');
@@ -47,7 +50,7 @@ Route::get('/checkout', function () {
 
 Route::get('/cart', function () {
     return view('pages.cart.cart');
-});
+})->name('myCartItem');
 
 
 Route::resource('users', UserController::class);

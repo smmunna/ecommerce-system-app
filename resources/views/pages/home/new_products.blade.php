@@ -74,7 +74,7 @@
                                             @endphp
                                             <p class="product-category">{{ $category->name ?? 'Category' }}</p>
                                             <h3 class="product-name"><a
-                                                    href="{{ route('products.show', $product->id) }}">{{ $product->title }}</a>
+                                                    href="{{ route('product.details', $product->slug) }}">{{ $product->title }}</a>
                                             </h3>
                                             <h4 class="product-price">
                                                 @if ($product->discount > 0)
@@ -96,14 +96,39 @@
                                                         class="tooltipp">add to wishlist</span></button>
                                                 <button class="add-to-compare"><i class="fa fa-exchange"></i><span
                                                         class="tooltipp">add to compare</span></button>
-                                                <button class="quick-view"><i class="fa fa-eye"></i><span
-                                                        class="tooltipp">quick view</span></button>
+                                                <button class="quick-view"><a
+                                                        href="{{ route('product.details', $product->slug) }}"><i
+                                                            class="fa fa-eye"></i><span class="tooltipp">quick
+                                                            view</span></a></button>
                                             </div>
                                         </div>
-                                        <div class="add-to-cart">
-                                            <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to
-                                                cart</button>
-                                        </div>
+                                        <!--Form for add to cart  -->
+                                        <form action="{{ route('addToCart') }}" method="POST">
+                                            @csrf
+                                            <input type="hidden" name="size" value="None">
+                                            <input type="hidden" name="color" value="None">
+                                            <input type="hidden" name="quantity" value="1">
+                                            <input type="hidden" name="product_id" value="{{ $product->id }}">
+                                            <div class="add-to-cart">
+                                                @if ($product->stock > 0)
+                                                    @if (Auth::check())
+                                                        <button type="submit" class="add-to-cart-btn">
+                                                            <i class="fa fa-shopping-cart"></i> add to cart
+                                                        </button>
+                                                    @else
+                                                        <a href="{{ route('login') }}">
+                                                            <button class="add-to-cart-btn">
+                                                                <i class="fa fa-shopping-cart"></i> add to cart
+                                                            </button>
+                                                        </a>
+                                                    @endif
+                                                @else
+                                                    <button class="add-to-cart-btn" disabled>
+                                                        <i class="fa fa-shopping-cart"></i> Out of Stock
+                                                    </button>
+                                                @endif
+                                            </div>
+                                        </form>
                                     </div>
                                     <!-- /product -->
                                 @endforeach

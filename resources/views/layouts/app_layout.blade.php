@@ -37,6 +37,22 @@
     </header>
 
     <main>
+        {{-- Success/Error Message after adding to cart --}}
+        <div class="text-center">
+            <div>
+                @if (session('success'))
+                    <div id="success" class="alert alert-success">
+                        {{ session('success') }}
+                    </div>
+                @endif
+
+                @if (session('failure'))
+                    <div id="failure" class="alert alert-danger">
+                        {{ session('failure') }}
+                    </div>
+                @endif
+            </div>
+        </div>
         <!-- Main content goes here -->
         @yield('content')
         <!-- News Letter -->

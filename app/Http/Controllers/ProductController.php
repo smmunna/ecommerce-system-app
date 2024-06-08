@@ -140,6 +140,27 @@ class ProductController extends Controller
         return view('pages.dashboard.admin.products.show', compact('product'));
     }
 
+    // Product detail page for quick view and others individual product details
+    public function oneProductDetails(string $slug)
+    {
+        $product = DB::table('products')
+            ->leftJoin('categories', 'products.cat_id', '=', 'categories.id')
+            ->leftJoin('brands', 'products.brand_id', '=', 'brands.id')
+            ->select(
+                'products.*',
+                'categories.name as category_name',
+                'brands.name as brand_name'
+            )
+            ->where('products.slug', $slug)
+            ->first();
+
+        if (!$product) {
+            abort(404);
+        }
+
+        return view('pages.product.product', compact('product'));
+    }
+
     /**
      * Show the form for editing the specified resource.
      */
