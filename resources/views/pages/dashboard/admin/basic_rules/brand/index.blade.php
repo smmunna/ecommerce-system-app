@@ -27,8 +27,8 @@
                             @foreach ($brands as $brand)
                                 <tr>
                                     <td>{{ $brand->name }}</td>
-                                    <td>{{ $brand->status }}</td>
                                     <td>{{ $brand->slug }}</td>
+                                    <td>{{ $brand->status }}</td>
                                     <td>
                                         <a href="{{ route('brands.edit', $brand->id) }}" class="btn btn-sm btn-warning">Edit</a>
                                         <form action="{{ route('brands.destroy', $brand->id) }}" method="post" class="d-inline">

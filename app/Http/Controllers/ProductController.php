@@ -88,7 +88,7 @@ class ProductController extends Controller
         $product->description = $request->input('description');
         $product->stock = $request->input('stock');
         $product->size = $request->input('size');
-        $product->condition = $request->input('condition');
+        $product->condition = strtolower($request->input('condition'));
         $product->price = $request->input('price');
         $product->discount = $request->input('discount');
         $product->cat_id = $request->input('cat_id');
