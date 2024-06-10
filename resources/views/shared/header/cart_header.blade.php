@@ -66,8 +66,8 @@
             <h5>SUBTOTAL: ৳{{ number_format($subtotal, 2) }}</h5>
         </div>
         <div class="cart-btns">
-            <a href="{{route('myCartItem')}}">View Cart</a>
-            <a href="#">Checkout <i class="fa fa-arrow-circle-right"></i></a>
+            <a href="{{ route('myCartItem') }}">View Cart</a>
+            <a href="{{ route('checkoutPage') }}">Checkout <i class="fa fa-arrow-circle-right"></i></a>
         </div>
     </div>
 </div>

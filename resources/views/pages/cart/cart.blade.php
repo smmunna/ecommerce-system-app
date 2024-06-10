@@ -31,7 +31,21 @@
     @endphp
 
     <div class="container mt-5">
-        <h1 class="mb-4">Shopping Cart</h1>
+        <!-- BREADCRUMB -->
+        <div id="breadcrumb" class="section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h3 class="breadcrumb-header">Checkout</h3>
+                        <ul class="breadcrumb-tree">
+                            <li><a href="{{ route('home') }}">Home</a></li>
+                            <li class="active">Shopping Cart</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /BREADCRUMB -->
         <div class="row">
             <div class="col-lg-8 col-md-10 mx-auto">
                 @if ($cartItems->isEmpty())
@@ -115,7 +129,7 @@
                             <h4>Discount: ৳{{ number_format($discount, 2) }}</h4>
                         @endif
                         <h4>Total: ৳{{ number_format($totalAfterDiscount, 2) }}</h4>
-                        <a href="#" class="btn btn-success">Proceed to Checkout</a>
+                        <a href="{{ route('checkoutPage') }}" class="btn btn-success">Proceed to Checkout</a>
                     </div>
                 @endif
             </div>

@@ -109,7 +109,7 @@
     <!-- AdminLTE App -->
     <script src={{ asset('/dashboard_files/dist/js/adminlte.js') }}></script>
     <!-- AdminLTE for demo purposes -->
-    <script src={{ asset('/dashboard_files/dist/js/demo.js') }}></script>
+    {{-- <script src={{ asset('/dashboard_files/dist/js/demo.js') }}></script> --}}
     <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
     <script src={{ asset('/dashboard_files/dist/js/pages/dashboard.js') }}></script>
     <script>

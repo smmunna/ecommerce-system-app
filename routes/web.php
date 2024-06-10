@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\CuponController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProductController;
@@ -47,11 +48,10 @@ Route::delete('/update-cart', [CartController::class, 'updateCart'])->name('upda
 
 // Cupons
 Route::post('/apply-coupon', [CartController::class, 'applyCoupon'])->name('applyCoupon');
+// Checkout
+Route::get('/checkout', [CheckoutController::class, 'checkoutPage'])->name('checkoutPage');
 
-Route::get('/checkout', function () {
-    return view('pages.checkout.checkout');
-});
-
+// Cart Items
 Route::get('/cart', function () {
     return view('pages.cart.cart');
 })->name('myCartItem');

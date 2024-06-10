@@ -47,7 +47,7 @@ class CartController extends Controller
         return back()->with('success', 'Product added to cart successfully!');
     }
 
-    // Update cart quantity
+    // Update cart quantity and Price
     public function updateCart(Request $request)
     {
         $userId = Auth::id();
@@ -58,6 +58,11 @@ class CartController extends Controller
                 $product = Product::find($cartItem->product_id);
                 if ($quantity > 0 && $quantity <= $product->stock) {
                     $cartItem->quantity = $quantity;
+
+                    // Calculate the new amount
+                    $discountedPrice = $product->price - $product->discount;
+                    $cartItem->amount = $discountedPrice * $quantity;
+
                     $cartItem->save();
                 } else {
                     // Redirect back with an error message if the quantity is more than stock
@@ -68,6 +73,7 @@ class CartController extends Controller
 
         return redirect()->route('myCartItem')->with('success', 'Cart updated successfully!');
     }
+
 
 
     // Delete a product from the cart
