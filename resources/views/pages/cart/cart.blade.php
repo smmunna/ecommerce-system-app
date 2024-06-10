@@ -24,6 +24,10 @@
             $discountedPrice = $cartItem->price - $cartItem->discount;
             return $discountedPrice * $cartItem->quantity;
         });
+
+        // Check if a coupon was applied
+        $totalAfterDiscount = $totalAfterDiscount ?? $subtotal;
+        $discount = $subtotal - $totalAfterDiscount;
     @endphp
 
     <div class="container mt-5">
@@ -94,7 +98,7 @@
                     <div class="card">
                         <div class="card-body">
                             <h5 class="card-title">Apply Coupon</h5>
-                            <form action="#" method="POST" class="form-inline">
+                            <form action="{{ route('applyCoupon') }}" method="POST" class="form-inline">
                                 @csrf
                                 <div class="form-group mb-2">
                                     <input type="text" class="form-control" id="coupon" name="coupon"
@@ -106,7 +110,11 @@
                     </div>
 
                     <div class="mt-4 text-right">
-                        <h4>Total: ৳{{ number_format($subtotal, 2) }}</h4>
+                        <h4>Subtotal: ৳{{ number_format($subtotal, 2) }}</h4>
+                        @if (isset($discount) && $discount > 0)
+                            <h4>Discount: ৳{{ number_format($discount, 2) }}</h4>
+                        @endif
+                        <h4>Total: ৳{{ number_format($totalAfterDiscount, 2) }}</h4>
                         <a href="#" class="btn btn-success">Proceed to Checkout</a>
                     </div>
                 @endif
@@ -114,6 +122,7 @@
         </div>
     </div>
 @endsection
+
 
 @push('styles')
     <style>

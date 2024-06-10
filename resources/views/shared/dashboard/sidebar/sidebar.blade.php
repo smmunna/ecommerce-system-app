@@ -97,6 +97,12 @@
                                 </a>
                             </li>
                             <li class="nav-item">
+                                <a href="{{ route('cupons.index') }}" class="nav-link">
+                                    <i class="fas fa-angle-right nav-icon"></i>
+                                    <p>Cupons</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
                                 <a href="{{ route('settings') }}" class="nav-link">
                                     <i class="fas fa-angle-right nav-icon"></i>
                                     <p>Settings</p>

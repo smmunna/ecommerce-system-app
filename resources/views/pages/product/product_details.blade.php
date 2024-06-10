@@ -75,7 +75,9 @@
                     </div>
                     <p>{!! $product->summary !!}</p>
 
-                    <!--Form for add to cart  -->
+                   <!--Form for add to cart  -->
+                    @auth
+                    <!-- Form for add to cart -->
                     <form action="{{ route('addToCart') }}" method="POST">
                         @csrf
                         <div class="product-options">
@@ -102,9 +104,10 @@
                                 </select>
                             </label>
                         </div>
-                        <!--Taking product id  -->
-                        <input type="hidden" name="product_id" value="{{$product->id}}">
-    
+                        <!-- Taking product id  -->
+                        <input type="hidden" name="product_id" value="{{ $product->id }}">
+                        <input type="hidden" name="amount" value="{{ $newPrice }}">
+
                         <div class="add-to-cart">
                             <div class="qty-label">
                                 Qty
@@ -115,17 +118,9 @@
                                 </div>
                             </div>
                             @if ($product->stock > 0)
-                                @if (Auth::check())
                                 <button type="submit" class="add-to-cart-btn">
                                     <i class="fa fa-shopping-cart"></i> add to cart
                                 </button>
-                                @else
-                                    <a href="{{ route('login') }}">
-                                        <button class="add-to-cart-btn">
-                                            <i class="fa fa-shopping-cart"></i> add to cart
-                                        </button>
-                                    </a>
-                                @endif
                             @else
                                 <button class="add-to-cart-btn" disabled>
                                     <i class="fa fa-shopping-cart"></i> Out of Stock
@@ -133,6 +128,56 @@
                             @endif
                         </div>
                     </form>
+                    @else
+                    <!-- Prompt to login if not authenticated -->
+                    <div class="product-options">
+                        <label>
+                            Size
+                            <select class="input-select" name="size">
+                                @php
+                                    $sizes = DB::table('sizes')->orderBy('created_at','desc')->get();
+                                @endphp
+                                @foreach ($sizes as $size)
+                                    <option value="{{ $size->name }}">{{ $size->name }}</option>
+                                @endforeach
+                            </select>
+                        </label>
+                        <label>
+                            Color
+                            <select class="input-select" name="color">
+                                <option value="None">None</option>
+                                <option value="Red">Red</option>
+                                <option value="Black">Black</option>
+                                <option value="Blue">Blue</option>
+                                <option value="Green">Green</option>
+                                <option value="Yellow">Yellow</option>
+                            </select>
+                        </label>
+                    </div>
+                    <!-- Taking product id  -->
+                    <input type="hidden" name="product_id" value="{{ $product->id }}">
+
+                    <div class="add-to-cart">
+                        <div class="qty-label">
+                            Qty
+                            <div class="input-number">
+                                <input type="number" value="1" name="quantity">
+                                <span class="qty-up">+</span>
+                                <span class="qty-down">-</span>
+                            </div>
+                        </div>
+                        @if ($product->stock > 0)
+                            <a href="{{route('login')}}"><button class="add-to-cart-btn">
+                                <i class="fa fa-shopping-cart"></i> add to cart
+                            </button></a>
+                        @else
+                            <button class="add-to-cart-btn" disabled>
+                                <i class="fa fa-shopping-cart"></i> Out of Stock
+                            </button>
+                        @endif
+                    </div>
+                    @endauth
+
 
                     <ul class="product-btns">
                         <li><a href="#"><i class="fa fa-heart-o"></i> add to wishlist</a></li>

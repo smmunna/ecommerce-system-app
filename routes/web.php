@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CuponController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SettingController;
@@ -44,6 +45,9 @@ Route::post('/add-to-cart', [CartController::class, 'addToCart'])->name('addToCa
 Route::delete('/delete-from-cart/{id}', [CartController::class, 'deleteFromCart'])->name('deleteFromCart');
 Route::delete('/update-cart', [CartController::class, 'updateCart'])->name('updateCart');
 
+// Cupons
+Route::post('/apply-coupon', [CartController::class, 'applyCoupon'])->name('applyCoupon');
+
 Route::get('/checkout', function () {
     return view('pages.checkout.checkout');
 });
@@ -73,6 +77,8 @@ Route::middleware('checkUserRole:admin')->prefix('admin')->group(function () {
     Route::resource('brands', BrandController::class);
     // Products
     Route::resource('products', ProductController::class);
+    // Cupons
+    Route::resource('cupons', CuponController::class);
 
     // Add more routes as needed...
 });

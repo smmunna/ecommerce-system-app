@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cart;
+use App\Models\Cupon;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -18,6 +19,7 @@ class CartController extends Controller
             'size' => 'required',
             'color' => 'required',
             'quantity' => 'required|integer|min:1',
+            'amount' => 'required',
         ]);
 
         // Find the product
@@ -35,6 +37,7 @@ class CartController extends Controller
         $cart->size = $request->size;
         $cart->color = $request->color;
         $cart->quantity = $request->quantity;
+        $cart->amount = ($request->quantity * $request->amount);
         $cart->save();
 
         // Optionally, you can reduce the product stock here
@@ -74,5 +77,43 @@ class CartController extends Controller
         $cart->delete();
 
         return back()->with('success', 'Product removed from cart successfully!');
+    }
+
+    // Applying the Cupon
+    public function applyCoupon(Request $request)
+    {
+        $request->validate([
+            'coupon' => 'required|string|exists:cupons,cupon_code'
+        ]);
+
+        $coupon = Cupon::where('cupon_code', $request->coupon)->first();
+        $userId = Auth::id();
+        $cartItems = Cart::where('user_id', $userId)
+            ->join('products', 'carts.product_id', '=', 'products.id')
+            ->select('carts.*', 'products.title', 'products.slug', 'products.photo', 'products.price', 'products.discount')
+            ->get();
+
+        $subtotal = $cartItems->sum(function ($cartItem) {
+            $discountedPrice = $cartItem->price - $cartItem->discount;
+            return $discountedPrice * $cartItem->quantity;
+        });
+
+        $totalAfterDiscount = $subtotal - $coupon->discount_price;
+        if ($totalAfterDiscount > 0) {
+            $remainingDiscount = $coupon->discount_price;
+            foreach ($cartItems as $cartItem) {
+                $discountedPrice = $cartItem->price - $cartItem->discount;
+                $totalPrice = $discountedPrice * $cartItem->quantity;
+
+                // Calculate the discount for this item proportionally
+                $itemDiscount = ($totalPrice / $subtotal) * $remainingDiscount;
+                $itemDiscountedAmount = $totalPrice - $itemDiscount;
+
+                $cartItem->amount = $itemDiscountedAmount;
+                $cartItem->save();
+            }
+        }
+
+        return view('pages.cart.cart', compact('cartItems', 'subtotal', 'totalAfterDiscount', 'coupon'));
     }
 }

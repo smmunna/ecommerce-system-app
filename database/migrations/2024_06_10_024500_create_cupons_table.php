@@ -11,14 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('carts', function (Blueprint $table) {
+        Schema::create('cupons', function (Blueprint $table) {
             $table->id();
-            $table->string('product_id')->nullable();
-            $table->string('user_id')->nullable();
-            $table->string('size')->nullable();
-            $table->string('color')->nullable();
-            $table->string('quantity')->nullable();
-            $table->string('amount')->nullable();
+            $table->string('cupon_code')->nullable();
+            $table->string('discount_price')->nullable();
             $table->timestamps();
         });
     }
@@ -28,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('carts');
+        Schema::dropIfExists('cupons');
     }
 };
