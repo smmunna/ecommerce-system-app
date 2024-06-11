@@ -29,9 +29,7 @@ Route::get('/', function () {
     return view('welcome');
 })->name('home');
 
-Route::get('/products-all', function () {
-    return view('pages.product.all_product');
-})->name('all_products');
+Route::get('/all-products', [ProductController::class, 'allProductPage'])->name('all_products');
 
 Route::get('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/login', [AuthController::class, 'authentication'])->name('login.user');
