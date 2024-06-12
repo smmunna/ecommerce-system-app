@@ -30,7 +30,6 @@
                             <div class="products-slick" data-nav="#slick-nav-1">
                                 @php
                                     use Illuminate\Support\Facades\DB;
-
                                     // Fetch products with condition 'new'
                                     $products = DB::table('products')->where('condition', 'new')->get();
                                 @endphp
@@ -87,9 +86,21 @@
                                                 @endif
                                             </h4>
                                             <div class="product-rating">
-                                                {{-- @for ($i = 0; $i < 5; $i++)
-                                                    <i class="fa fa-star{{ $i < $product->rating ? '' : '-o' }}"></i>
-                                                @endfor --}}
+                                                @php
+                                                    // Fetch average rating for the product
+                                                    $averageRating = DB::table('reviews')
+                                                        ->where('product_id', $product->id)
+                                                        ->avg('rating');
+                                                @endphp
+                                                @for ($i = 1; $i <= 5; $i++)
+                                                    @if ($i <= floor($averageRating))
+                                                        <i class="fa fa-star"></i>
+                                                    @elseif ($i <= ceil($averageRating))
+                                                        <i class="fa fa-star-half-o"></i>
+                                                    @else
+                                                        <i class="fa fa-star-o"></i>
+                                                    @endif
+                                                @endfor
                                             </div>
                                             <div class="product-btns">
                                                 <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span

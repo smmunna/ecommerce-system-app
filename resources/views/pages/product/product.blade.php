@@ -21,7 +21,7 @@
     <!-- /BREADCRUMB -->
 
     @include('pages.product.product_details', ['relatedProducts' => $product])
-    @include('pages.product.reated_products')
+    @include('pages.product.reated_products', ['cat_id' => $product->cat_id])
 
 
 

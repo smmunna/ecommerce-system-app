@@ -1,4 +1,4 @@
-	<!-- SECTION -->
+<!-- SECTION -->
 <div class="section">
     <!-- container -->
     <div class="container">
@@ -40,13 +40,26 @@
                     <h2 class="product-name">{{ $product->title }}</h2>
                     <div>
                         <div class="product-rating">
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star-o"></i>
+                            @php
+                                // Fetch average rating for the product
+                                $averageRating = DB::table('reviews')
+                                    ->where('product_id', $product->id)
+                                    ->avg('rating');
+                                $totalReviews = DB::table('reviews')
+                                    ->where('product_id', $product->id)
+                                    ->count();
+                            @endphp
+                            @for ($i = 1; $i <= 5; $i++)
+                                @if ($i <= floor($averageRating))
+                                    <i class="fa fa-star"></i>
+                                @elseif ($i <= ceil($averageRating))
+                                    <i class="fa fa-star-half-o"></i>
+                                @else
+                                    <i class="fa fa-star-o"></i>
+                                @endif
+                            @endfor
                         </div>
-                        <a class="review-link" href="#">10 Review(s) | Add your review</a>
+                        <a class="review-link">{{ $totalReviews }} Review(s)</a>
                     </div>
                     <div>
                         <h3 class="product-price">
@@ -64,9 +77,9 @@
                             @endif
                         </h3>
                         @if ($product->stock > 0)
-                            <span class="product-available">In Stock 
+                            <span class="product-available">In Stock
                                 <span style="font-size: 18px; background-color: green; padding: 5px; color: white;">
-                                    {{$product->stock}}
+                                    {{ $product->stock }}
                                 </span>
                             </span>
                         @else
@@ -75,17 +88,67 @@
                     </div>
                     <p>{!! $product->summary !!}</p>
 
-                   <!--Form for add to cart  -->
+                    <!--Form for add to cart  -->
                     @auth
-                    <!-- Form for add to cart -->
-                    <form action="{{ route('addToCart') }}" method="POST">
-                        @csrf
+                        <!-- Form for add to cart -->
+                        <form action="{{ route('addToCart') }}" method="POST">
+                            @csrf
+                            <div class="product-options">
+                                <label>
+                                    Size
+                                    <select class="input-select" name="size">
+                                        @php
+                                            $sizes = DB::table('sizes')->orderBy('created_at', 'desc')->get();
+                                        @endphp
+                                        @foreach ($sizes as $size)
+                                            <option value="{{ $size->name }}">{{ $size->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </label>
+                                <label>
+                                    Color
+                                    <select class="input-select" name="color">
+                                        <option value="None">None</option>
+                                        <option value="Red">Red</option>
+                                        <option value="Black">Black</option>
+                                        <option value="Blue">Blue</option>
+                                        <option value="Green">Green</option>
+                                        <option value="Yellow">Yellow</option>
+                                    </select>
+                                </label>
+                            </div>
+                            <!-- Taking product id  -->
+                            <input type="hidden" name="product_id" value="{{ $product->id }}">
+                            <input type="hidden" name="amount" value="{{ $newPrice }}">
+
+                            <div class="add-to-cart">
+                                <div class="qty-label">
+                                    Qty
+                                    <div class="input-number">
+                                        <input type="number" value="1" name="quantity">
+                                        <span class="qty-up">+</span>
+                                        <span class="qty-down">-</span>
+                                    </div>
+                                </div>
+                                @if ($product->stock > 0)
+                                    <button type="submit" class="add-to-cart-btn">
+                                        <i class="fa fa-shopping-cart"></i> add to cart
+                                    </button>
+                                @else
+                                    <button class="add-to-cart-btn" disabled>
+                                        <i class="fa fa-shopping-cart"></i> Out of Stock
+                                    </button>
+                                @endif
+                            </div>
+                        </form>
+                    @else
+                        <!-- Prompt to login if not authenticated -->
                         <div class="product-options">
                             <label>
                                 Size
                                 <select class="input-select" name="size">
                                     @php
-                                        $sizes = DB::table('sizes')->orderBy('created_at','desc')->get();
+                                        $sizes = DB::table('sizes')->orderBy('created_at', 'desc')->get();
                                     @endphp
                                     @foreach ($sizes as $size)
                                         <option value="{{ $size->name }}">{{ $size->name }}</option>
@@ -106,7 +169,6 @@
                         </div>
                         <!-- Taking product id  -->
                         <input type="hidden" name="product_id" value="{{ $product->id }}">
-                        <input type="hidden" name="amount" value="{{ $newPrice }}">
 
                         <div class="add-to-cart">
                             <div class="qty-label">
@@ -118,64 +180,15 @@
                                 </div>
                             </div>
                             @if ($product->stock > 0)
-                                <button type="submit" class="add-to-cart-btn">
-                                    <i class="fa fa-shopping-cart"></i> add to cart
-                                </button>
+                                <a href="{{ route('login') }}"><button class="add-to-cart-btn">
+                                        <i class="fa fa-shopping-cart"></i> add to cart
+                                    </button></a>
                             @else
                                 <button class="add-to-cart-btn" disabled>
                                     <i class="fa fa-shopping-cart"></i> Out of Stock
                                 </button>
                             @endif
                         </div>
-                    </form>
-                    @else
-                    <!-- Prompt to login if not authenticated -->
-                    <div class="product-options">
-                        <label>
-                            Size
-                            <select class="input-select" name="size">
-                                @php
-                                    $sizes = DB::table('sizes')->orderBy('created_at','desc')->get();
-                                @endphp
-                                @foreach ($sizes as $size)
-                                    <option value="{{ $size->name }}">{{ $size->name }}</option>
-                                @endforeach
-                            </select>
-                        </label>
-                        <label>
-                            Color
-                            <select class="input-select" name="color">
-                                <option value="None">None</option>
-                                <option value="Red">Red</option>
-                                <option value="Black">Black</option>
-                                <option value="Blue">Blue</option>
-                                <option value="Green">Green</option>
-                                <option value="Yellow">Yellow</option>
-                            </select>
-                        </label>
-                    </div>
-                    <!-- Taking product id  -->
-                    <input type="hidden" name="product_id" value="{{ $product->id }}">
-
-                    <div class="add-to-cart">
-                        <div class="qty-label">
-                            Qty
-                            <div class="input-number">
-                                <input type="number" value="1" name="quantity">
-                                <span class="qty-up">+</span>
-                                <span class="qty-down">-</span>
-                            </div>
-                        </div>
-                        @if ($product->stock > 0)
-                            <a href="{{route('login')}}"><button class="add-to-cart-btn">
-                                <i class="fa fa-shopping-cart"></i> add to cart
-                            </button></a>
-                        @else
-                            <button class="add-to-cart-btn" disabled>
-                                <i class="fa fa-shopping-cart"></i> Out of Stock
-                            </button>
-                        @endif
-                    </div>
                     @endauth
 
 
@@ -208,7 +221,12 @@
                     <ul class="tab-nav">
                         <li class="active"><a data-toggle="tab" href="#tab1">Description</a></li>
                         <li><a data-toggle="tab" href="#tab2">Details</a></li>
-                        <li><a data-toggle="tab" href="#tab3">Reviews (3)</a></li>
+                        @php
+                            $totalReviews = DB::table('reviews')
+                                ->where('product_id', $product->id)
+                                ->count();
+                        @endphp
+                        <li><a data-toggle="tab" href="#tab3">Reviews ({{ $totalReviews }})</a></li>
                     </ul>
                     <!-- /product tab nav -->
 
@@ -236,188 +254,20 @@
 
                         <!-- tab3  -->
                         <div id="tab3" class="tab-pane fade in">
-                            <div class="row">
-                                <!-- Rating -->
-                                <div class="col-md-3">
-                                    <div id="rating">
-                                        <div class="rating-avg">
-                                            <span>4.5</span>
-                                            <div class="rating-stars">
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star-o"></i>
-                                            </div>
-                                        </div>
-                                        <ul class="rating">
-                                            <li>
-                                                <div class="rating-stars">
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                </div>
-                                                <div class="rating-progress">
-                                                    <div style="width: 80%;"></div>
-                                                </div>
-                                                <span class="sum">3</span>
-                                            </li>
-                                            <li>
-                                                <div class="rating-stars">
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star-o"></i>
-                                                </div>
-                                                <div class="rating-progress">
-                                                    <div style="width: 60%;"></div>
-                                                </div>
-                                                <span class="sum">2</span>
-                                            </li>
-                                            <li>
-                                                <div class="rating-stars">
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star-o"></i>
-                                                    <i class="fa fa-star-o"></i>
-                                                </div>
-                                                <div class="rating-progress">
-                                                    <div></div>
-                                                </div>
-                                                <span class="sum">0</span>
-                                            </li>
-                                            <li>
-                                                <div class="rating-stars">
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star-o"></i>
-                                                    <i class="fa fa-star-o"></i>
-                                                    <i class="fa fa-star-o"></i>
-                                                </div>
-                                                <div class="rating-progress">
-                                                    <div></div>
-                                                </div>
-                                                <span class="sum">0</span>
-                                            </li>
-                                            <li>
-                                                <div class="rating-stars">
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star-o"></i>
-                                                    <i class="fa fa-star-o"></i>
-                                                    <i class="fa fa-star-o"></i>
-                                                    <i class="fa fa-star-o"></i>
-                                                </div>
-                                                <div class="rating-progress">
-                                                    <div></div>
-                                                </div>
-                                                <span class="sum">0</span>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <!-- /Rating -->
 
-                                <!-- Reviews -->
-                                <div class="col-md-6">
-                                    <div id="reviews">
-                                        <ul class="reviews">
-                                            <li>
-                                                <div class="review-heading">
-                                                    <h5 class="name">John</h5>
-                                                    <p class="date">27 DEC 2018, 8:0 PM</p>
-                                                    <div class="review-rating">
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star-o empty"></i>
-                                                    </div>
-                                                </div>
-                                                <div class="review-body">
-                                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</p>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="review-heading">
-                                                    <h5 class="name">John</h5>
-                                                    <p class="date">27 DEC 2018, 8:0 PM</p>
-                                                    <div class="review-rating">
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star-o empty"></i>
-                                                    </div>
-                                                </div>
-                                                <div class="review-body">
-                                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</p>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="review-heading">
-                                                    <h5 class="name">John</h5>
-                                                    <p class="date">27 DEC 2018, 8:0 PM</p>
-                                                    <div class="review-rating">
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star-o empty"></i>
-                                                    </div>
-                                                </div>
-                                                <div class="review-body">
-                                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</p>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                        <ul class="reviews-pagination">
-                                            <li class="active">1</li>
-                                            <li><a href="#">2</a></li>
-                                            <li><a href="#">3</a></li>
-                                            <li><a href="#">4</a></li>
-                                            <li><a href="#"><i class="fa fa-angle-right"></i></a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <!-- /Reviews -->
+                            @include('pages.product.reviews.review', ['product_id' => $product->id])
 
-                                <!-- Review Form -->
-                                <div class="col-md-3">
-                                    <div id="review-form">
-                                        <form class="review-form">
-                                            <input class="input" type="text" placeholder="Your Name">
-                                            <input class="input" type="email" placeholder="Your Email">
-                                            <textarea class="input" placeholder="Your Review"></textarea>
-                                            <div class="input-rating">
-                                                <span>Your Rating: </span>
-                                                <div class="stars">
-                                                    <input id="star5" name="rating" value="5" type="radio"><label for="star5"></label>
-                                                    <input id="star4" name="rating" value="4" type="radio"><label for="star4"></label>
-                                                    <input id="star3" name="rating" value="3" type="radio"><label for="star3"></label>
-                                                    <input id="star2" name="rating" value="2" type="radio"><label for="star2"></label>
-                                                    <input id="star1" name="rating" value="1" type="radio"><label for="star1"></label>
-                                                </div>
-                                            </div>
-                                            <button class="primary-btn">Submit</button>
-                                        </form>
-                                    </div>
-                                </div>
-                                <!-- /Review Form -->
-                            </div>
                         </div>
-                        <!-- /tab3  -->
                     </div>
-                    <!-- /product tab content  -->
+                    <!-- /tab3  -->
                 </div>
+                <!-- /product tab content  -->
             </div>
-            <!-- /product tab -->
         </div>
-        <!-- /row -->
+        <!-- /product tab -->
     </div>
-    <!-- /container -->
+    <!-- /row -->
+</div>
+<!-- /container -->
 </div>
 <!-- /SECTION -->

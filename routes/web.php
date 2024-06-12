@@ -8,6 +8,7 @@ use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\CuponController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\SizeController;
 use App\Http\Controllers\UserController;
@@ -56,6 +57,8 @@ Route::get('/cart', function () {
 
 
 Route::resource('users', UserController::class);
+Route::resource('reviews', ReviewController::class);
+
 
 // Admin Routes
 Route::middleware('checkUserRole:admin')->prefix('admin')->group(function () {
