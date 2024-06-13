@@ -14,13 +14,13 @@ class CartController extends Controller
     public function addToCart(Request $request)
     {
         // Validate the request
-        $request->validate([
-            'product_id' => 'required',
-            'size' => 'required',
-            'color' => 'required',
-            'quantity' => 'required|integer|min:1',
-            'amount' => 'required',
-        ]);
+        // $request->validate([
+        //     'product_id' => 'required',
+        //     'size' => 'required',
+        //     'color' => 'required',
+        //     'quantity' => 'required|integer|min:1',
+        //     'amount' => 'required',
+        // ]);
 
         // Find the product
         $product = Product::find($request->product_id);

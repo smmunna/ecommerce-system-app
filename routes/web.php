@@ -7,6 +7,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\CuponController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\SettingController;
@@ -43,13 +44,14 @@ Route::post('/register', [UserController::class, 'store'])->name('register.user'
 Route::get('/products-details/{slug}', [ProductController::class, 'oneProductDetails'])->name('product.details');
 // Add to cart
 Route::post('/add-to-cart', [CartController::class, 'addToCart'])->name('addToCart');
+Route::put('/update-cart', [CartController::class, 'updateCart'])->name('updateCart');
 Route::delete('/delete-from-cart/{id}', [CartController::class, 'deleteFromCart'])->name('deleteFromCart');
-Route::delete('/update-cart', [CartController::class, 'updateCart'])->name('updateCart');
 
 // Cupons
 Route::post('/apply-coupon', [CartController::class, 'applyCoupon'])->name('applyCoupon');
 // Checkout
 Route::get('/checkout', [CheckoutController::class, 'checkoutPage'])->name('checkoutPage');
+Route::post('/checkout', [OrderController::class, 'placeOrder'])->name('placeOrder');
 
 // Cart Items
 Route::get('/cart', function () {
@@ -90,6 +92,23 @@ Route::middleware('checkUserRole:admin')->prefix('admin')->group(function () {
     // Reviews
     Route::get('/reviews', [ReviewController::class, 'index'])->name('admin.reviews.index');
     Route::delete('/delete/reviews/{id}', [ReviewController::class, 'destroy'])->name('reviews.destroy');
+
+    // users list
+    Route::get('/users', [UserController::class, 'index'])->name('admin.users');
+    Route::patch('/users/{user}/updateRole', [UserController::class, 'updateRole'])->name('admin.users.updateRole');
+    Route::get('/users/{user}/editPassword', [UserController::class, 'editPassword'])->name('admin.users.editPassword');
+    Route::patch('/users/{user}/updatePassword', [UserController::class, 'updatePassword'])->name('admin.users.updatePassword');
+    Route::get('/users/{id}', [UserController::class, 'show'])->name('admin.users.show');
+
+    // Orders
+    Route::get('/orders', [OrderController::class, 'getAllOrders'])->name('admin.orders');
+    Route::put('/orders/{id}/status', [OrderController::class, 'updateOrderStatus'])->name('updateOrderStatus');
+
+    // Invoice
+    Route::get('/invoice/{id}', [OrderController::class, 'invoiceAdmin'])->name('admin.invoices');
+    // Route::get('/orders/{id}', [OrderController::class, 'show'])->name('admin.orders.show');
+    // Route::patch('/orders/{id}/updateStatus', [OrderController::class, 'updateStatus'])->name('admin.orders.updateStatus');
+    // Route::delete('/orders/{id}', [OrderController::class, 'destroy'])->name('admin.orders.destroy');
 
     // Add more routes as needed...
 });

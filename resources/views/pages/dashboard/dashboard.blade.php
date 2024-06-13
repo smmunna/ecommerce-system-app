@@ -3,7 +3,10 @@
 @section('content')
 
     @if (auth()->user()->role == 'admin')
-        <h3>Admin Dashboard</h3>
+        @include('pages.dashboard.admin.dashboard.dashboard', [
+            'totalRegisterUser' => $totalRegisterUser,
+            'totalReviews' => $totalReviews,
+        ])
     @endif
 
     @if (auth()->user()->role == 'user')

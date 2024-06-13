@@ -51,6 +51,22 @@
                         </a>
                     </li>
                     <li class="nav-item">
+                        <a href="{{ route('admin.users') }}" class="nav-link">
+                            <i class="nav-icon fas fa-users"></i>
+                            <p>
+                                Users
+                            </p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('admin.orders') }}" class="nav-link">
+                            <i class="nav-icon fas fa-shopping-cart"></i>
+                            <p>
+                                Orders
+                            </p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a href="{{ route('admin.reviews.index') }}" class="nav-link">
                             <i class="nav-icon fas fa-comments"></i>
                             <p>

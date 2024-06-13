@@ -86,7 +86,8 @@
                                                     {{ $product->price }}{{ $settings->currency_symbol }}
                                                 @endif
                                                 @if ($product->discount > 0)
-                                                    <del class="product-old-price">{{ $product->price }}{{ $settings->currency_symbol }}</del>
+                                                    <del
+                                                        class="product-old-price">{{ $product->price }}{{ $settings->currency_symbol }}</del>
                                                 @endif
                                             </h4>
                                             <div class="product-rating">
@@ -140,7 +141,7 @@
 
 
                                         </div>
-                                        <!--Form for add to cart  -->
+                                        <!-- Form for add to cart -->
                                         <form action="{{ route('addToCart') }}" method="POST">
                                             @csrf
                                             <input type="hidden" name="size" value="None">
@@ -149,17 +150,15 @@
                                             <input type="hidden" name="product_id" value="{{ $product->id }}">
                                             <div class="add-to-cart">
                                                 @if ($product->stock > 0)
-                                                    @if (Auth::check())
+                                                    @auth
                                                         <button type="submit" class="add-to-cart-btn">
                                                             <i class="fa fa-shopping-cart"></i> add to cart
                                                         </button>
                                                     @else
-                                                        <a href="{{ route('login') }}">
-                                                            <button class="add-to-cart-btn">
-                                                                <i class="fa fa-shopping-cart"></i> add to cart
-                                                            </button>
+                                                        <a href="{{ route('login') }}" class="add-to-cart-btn">
+                                                            <i class="fa fa-shopping-cart"></i> add to cart
                                                         </a>
-                                                    @endif
+                                                    @endauth
                                                 @else
                                                     <button class="add-to-cart-btn" disabled>
                                                         <i class="fa fa-shopping-cart"></i> Out of Stock
@@ -167,6 +166,7 @@
                                                 @endif
                                             </div>
                                         </form>
+
                                     </div>
                                     <!-- /product -->
                                 @endforeach

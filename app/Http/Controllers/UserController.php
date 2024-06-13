@@ -11,9 +11,54 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        // Create a query builder instance
+        $query = User::query();
+    
+        // Check if the 'search' query parameter is present
+        if ($request->has('search')) {
+            $search = $request->input('search');
+            // Filter users by name or email
+            $query->where('name', 'like', '%' . $search . '%')
+                  ->orWhere('email', 'like', '%' . $search . '%');
+        }
+    
+        // Fetch the filtered users with pagination
+        $users = $query->orderBy('created_at', 'desc')->paginate(10);
+    
+        // Return the view with the users data
+        return view('pages.dashboard.admin.users.index', compact('users'));
+    }
+    
+
+    public function updateRole(Request $request, User $user)
+    {
+        $request->validate([
+            'role' => 'required|in:user,admin,subadmin',
+        ]);
+
+        $user->role = $request->role;
+        $user->save();
+
+        return redirect()->route('admin.users')->with('success', 'User role updated successfully.');
+    }
+
+    public function editPassword(User $user)
+    {
+        return view('pages.dashboard.admin.users.edit_password', compact('user'));
+    }
+
+    public function updatePassword(Request $request, User $user)
+    {
+        $request->validate([
+            'password' => 'required|min:6|confirmed',
+        ]);
+
+        $user->password = Hash::make($request->password);
+        $user->save();
+
+        return redirect()->route('admin.users')->with('success', 'Password updated successfully.');
     }
 
     /**
@@ -76,10 +121,12 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show($id)
     {
-        //
+        $user = User::findOrFail($id);
+        return view('pages.dashboard.admin.users.user_details', compact('user'));
     }
+    
 
     /**
      * Show the form for editing the specified resource.

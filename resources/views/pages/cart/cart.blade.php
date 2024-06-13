@@ -51,64 +51,66 @@
                 @if ($cartItems->isEmpty())
                     <p>No items in your cart.</p>
                 @else
-                    <form action="{{ route('updateCart') }}" method="POST">
-                        @csrf
-                        <table class="table table-hover">
-                            <thead class="thead-light">
+                    <table class="table table-hover">
+                        <thead class="thead-light">
+                            <tr>
+                                <th scope="col">Title</th>
+                                {{-- <th scope="col">Image</th> --}}
+                                <th scope="col">Price</th>
+                                <th scope="col">Quantity</th>
+                                <th scope="col">Total</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($cartItems as $item)
+                                @php
+                                    $discountedPrice = $item->price - $item->discount;
+                                    $totalPrice = $discountedPrice * $item->quantity;
+                                    $photos = json_decode($item->photo, true);
+                                    $firstPhoto = $photos[0] ?? 'default-image.jpg';
+                                @endphp
                                 <tr>
-                                    <th scope="col">Title</th>
-                                    {{-- <th scope="col">Image</th> --}}
-                                    <th scope="col">Price</th>
-                                    <th scope="col">Quantity</th>
-                                    <th scope="col">Total</th>
-                                    <th scope="col">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($cartItems as $item)
-                                    @php
-                                        $discountedPrice = $item->price - $item->discount;
-                                        $totalPrice = $discountedPrice * $item->quantity;
-                                        $photos = json_decode($item->photo, true);
-                                        $firstPhoto = $photos[0] ?? 'default-image.jpg';
-                                    @endphp
-                                    <tr>
-                                        <td>
-                                            <div class="d-flex align-items-center">
-                                                <a href="{{ route('product.details', $item->slug) }}">
-                                                    <p class="product-name">{{ $item->title }}</p>
-                                                </a>
-                                            </div>
-                                        </td>
-                                        {{-- <td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <a href="{{ route('product.details', $item->slug) }}">
+                                                <p class="product-name">{{ $item->title }}</p>
+                                            </a>
+                                        </div>
+                                    </td>
+                                    {{-- <td>
                                             <div class="product-img d-none">
                                                 <img src="{{ asset($firstPhoto) }}" alt="{{ $item->title }}"
                                                     class="img-fluid" width="100" height="100">
                                             </div>
                                         </td> --}}
 
-                                        <td>{{ number_format($discountedPrice, 2) }} ৳</td>
-                                        <td>
+                                    <td>{{ number_format($discountedPrice, 2) }} ৳</td>
+                                    <td>
+                                        <form action="{{ route('updateCart') }}" method="POST">
+                                            @csrf
+                                            @method('PUT')
                                             <input type="number" name="quantity[{{ $item->id }}]"
                                                 value="{{ $item->quantity }}" min="1" class="form-control"
                                                 style="width: 60px;">
-                                        </td>
-                                        <td>{{ number_format($totalPrice, 2) }} ৳</td>
-                                        <td>
-                                            <button type="submit" name="update" value="{{ $item->id }}"
-                                                class="btn btn-primary btn-sm">Update</button>
-                                            <form action="{{ route('deleteFromCart', $item->id) }}" method="POST"
-                                                style="display:inline;">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-danger btn-sm">X</button>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </form>
+
+                                    </td>
+                                    <td>{{ number_format($totalPrice, 2) }} ৳</td>
+                                    <td>
+                                        <button type="submit" name="update" value="{{ $item->id }}"
+                                            class="btn btn-primary btn-sm">Update</button>
+                                        </form>
+                                        <form action="{{ route('deleteFromCart', $item->id) }}" method="POST"
+                                            style="display:inline;">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-danger btn-sm">X</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
 
                     <div class="card">
                         <div class="card-body">
