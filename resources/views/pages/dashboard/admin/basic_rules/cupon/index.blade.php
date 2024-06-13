@@ -23,6 +23,7 @@
                         <th>ID</th>
                         <th>Cupon Code</th>
                         <th>Discount Price</th>
+                        <th>Created At</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -32,6 +33,7 @@
                             <td>{{ $cupon->id }}</td>
                             <td>{{ $cupon->cupon_code }}</td>
                             <td>{{ $cupon->discount_price }}</td>
+                            <td>{{ $cupon->created_at }}</td>
                             <td>
                                 <a href="{{ route('cupons.edit', $cupon->id) }}" class="btn btn-warning">Edit</a>
                                 <form action="{{ route('cupons.destroy', $cupon->id) }}" method="POST"

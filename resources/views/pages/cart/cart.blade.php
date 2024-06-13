@@ -57,7 +57,7 @@
                             <thead class="thead-light">
                                 <tr>
                                     <th scope="col">Title</th>
-                                    <th scope="col">Image</th>
+                                    {{-- <th scope="col">Image</th> --}}
                                     <th scope="col">Price</th>
                                     <th scope="col">Quantity</th>
                                     <th scope="col">Total</th>
@@ -80,12 +80,13 @@
                                                 </a>
                                             </div>
                                         </td>
-                                        <td>
-                                            <div class="product-img">
-                                                <img src="{{ asset($firstPhoto) }}" alt="{{ $item->title }}" width="100"
-                                                    height="100">
+                                        {{-- <td>
+                                            <div class="product-img d-none">
+                                                <img src="{{ asset($firstPhoto) }}" alt="{{ $item->title }}"
+                                                    class="img-fluid" width="100" height="100">
                                             </div>
-                                        </td>
+                                        </td> --}}
+
                                         <td>{{ number_format($discountedPrice, 2) }} ৳</td>
                                         <td>
                                             <input type="number" name="quantity[{{ $item->id }}]"
@@ -100,7 +101,7 @@
                                                 style="display:inline;">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" class="btn btn-danger btn-sm">Remove</button>
+                                                <button type="submit" class="btn btn-danger btn-sm">X</button>
                                             </form>
                                         </td>
                                     </tr>

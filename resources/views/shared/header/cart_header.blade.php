@@ -3,6 +3,9 @@
     use App\Models\Cart;
     use App\Models\Product;
 
+    // Fetch the first settings record from the database
+    $settings = App\Models\Setting::first();
+
     $userId = Auth::id();
     $cartItems = Cart::where('user_id', $userId)
         ->join('products', 'carts.product_id', '=', 'products.id')
@@ -42,9 +45,9 @@
                                 href="{{ route('product.details', $item->slug) }}">{{ $item->title }}</a></h3>
                         <h4 class="product-price">
                             <span class="qty">{{ $item->quantity }}x</span>
-                            ৳{{ number_format($discountedPrice, 2) }}
+                            {{ $settings->currency_symbol }}{{ number_format($discountedPrice, 2) }}
                             @if ($item->discount > 0)
-                                <del>৳{{ number_format($item->price, 2) }}</del>
+                                <del>{{ $settings->currency_symbol }}{{ number_format($item->price, 2) }}</del>
                             @endif
                         </h4>
                     </div>
@@ -63,7 +66,7 @@
         </div>
         <div class="cart-summary">
             <small>{{ $totalQuantity }} Item(s) selected</small>
-            <h5>SUBTOTAL: ৳{{ number_format($subtotal, 2) }}</h5>
+            <h5>SUBTOTAL: {{ $settings->currency_symbol }}{{ number_format($subtotal, 2) }}</h5>
         </div>
         <div class="cart-btns">
             <a href="{{ route('myCartItem') }}">View Cart</a>

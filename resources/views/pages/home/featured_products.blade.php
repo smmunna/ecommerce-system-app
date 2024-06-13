@@ -1,3 +1,7 @@
+@php
+    // Fetch the first settings record from the database
+    $settings = App\Models\Setting::first();
+@endphp
 <!-- SECTION -->
 <div class="section">
     <!-- container -->
@@ -79,12 +83,12 @@
                                             </h3>
                                             <h4 class="product-price">
                                                 @if ($product->discount > 0)
-                                                    {{ $newPrice ?? $product->price }} tk
+                                                    {{ $newPrice ?? $product->price }}{{ $settings->currency_symbol }}
                                                 @else
-                                                    {{ $product->price }} Tk
+                                                    {{ $product->price }}{{ $settings->currency_symbol }}
                                                 @endif
                                                 @if ($product->discount > 0)
-                                                    <del class="product-old-price">{{ $product->price }} tk</del>
+                                                    <del class="product-old-price">{{ $product->price }}{{ $settings->currency_symbol }}</del>
                                                 @endif
                                             </h4>
                                             <div class="product-rating">

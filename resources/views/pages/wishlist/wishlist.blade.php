@@ -2,6 +2,11 @@
 @section('title', 'Wishlist')
 @section('content')
 
+    @php
+        // Fetch the first settings record from the database
+        $settings = App\Models\Setting::first();
+    @endphp
+
     <!-- BREADCRUMB -->
     <div id="breadcrumb" class="section">
         <div class="container">
@@ -44,7 +49,7 @@
                                     <tr>
                                         <td>
                                             <img src="{{ asset(json_decode($product->photo)[0]) }}" alt=""
-                                                style="width: 100px; height: auto;">
+                                                style="width: 100px; height: 100px;">
                                         </td>
                                         <td>{{ $product->title }}</td>
                                         <td>
@@ -58,23 +63,24 @@
                                                 @endphp
                                             @endif
                                             @if ($product->discount > 0)
-                                                {{ $newPrice ?? $product->price }}৳
+                                                {{ $newPrice ?? $product->price }}{{ $settings->currency_symbol }}
                                             @else
-                                                {{ $product->price }}৳
+                                                {{ $product->price }}{{ $settings->currency_symbol }}
                                             @endif
                                             @if ($product->discount > 0)
-                                                <del class="product-old-price">{{ $product->price }}৳</del>
+                                                <del
+                                                    class="product-old-price">{{ $product->price }}{{ $settings->currency_symbol }}</del>
                                             @endif
                                         </td>
                                         <td>
+                                            <a href="{{ route('product.details', $product->slug) }}"
+                                                class="btn btn-primary btn-sm">View</a>
                                             <form action="{{ route('remove.wishlist', $product->id) }}" method="post"
                                                 style="display: inline;">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" class="btn btn-danger btn-sm">Remove</button>
+                                                <button type="submit" class="btn btn-danger btn-sm">X</button>
                                             </form>
-                                            <a href="{{ route('product.details', $product->slug) }}"
-                                                class="btn btn-primary btn-sm">View</a>
                                         </td>
                                     </tr>
                                 @endforeach

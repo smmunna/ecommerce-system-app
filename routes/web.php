@@ -87,6 +87,9 @@ Route::middleware('checkUserRole:admin')->prefix('admin')->group(function () {
     Route::resource('products', ProductController::class);
     // Cupons
     Route::resource('cupons', CuponController::class);
+    // Reviews
+    Route::get('/reviews', [ReviewController::class, 'index'])->name('admin.reviews.index');
+    Route::delete('/delete/reviews/{id}', [ReviewController::class, 'destroy'])->name('reviews.destroy');
 
     // Add more routes as needed...
 });

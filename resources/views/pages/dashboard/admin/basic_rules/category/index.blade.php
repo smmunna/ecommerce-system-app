@@ -20,7 +20,7 @@
                                         <th>Slug</th>
                                         <th>Description</th>
                                         <th>Photo</th>
-                                        <th>Status</th>
+                                        <th>is_featured</th>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
@@ -39,7 +39,7 @@
                                                         class="img-fluid" style="max-width: 100px;">
                                                 @endif
                                             </td>
-                                            <td>{{ ucfirst($category->status) }}</td>
+                                            <td>{{ ucfirst($category->is_featured) }}</td>
                                             <td>
                                                 <!-- Add your action buttons here, e.g., Edit and Delete -->
                                                 <a href="{{ route('categories.edit', $category->id) }}"

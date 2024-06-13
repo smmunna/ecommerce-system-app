@@ -38,7 +38,7 @@ class CategoryController extends Controller
             'name' => 'required|string|max:255',
             'description' => 'required|string',
             'photo' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
-            'status' => 'required|in:active,inactive',
+            'is_featured' => 'required|in:yes,no',
         ]);
 
         if ($validator->fails()) {
@@ -52,7 +52,7 @@ class CategoryController extends Controller
         $category->name = $request->input('name');
         $category->slug = Str::slug($request->input('name')); // Generate slug from name
         $category->description = $request->input('description');
-        $category->status = $request->input('status');
+        $category->is_featured = $request->input('is_featured');
 
         // Handle photo upload and rename
         if ($request->hasFile('photo')) {
@@ -96,7 +96,7 @@ class CategoryController extends Controller
             'name' => 'required|string|max:255',
             'description' => 'required|string',
             'photo' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
-            'status' => 'required|in:active,inactive',
+            'is_featured' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -108,7 +108,7 @@ class CategoryController extends Controller
         $category->name = $request->input('name');
         $category->slug = Str::slug($request->input('name')); // Generate slug from name
         $category->description = $request->input('description');
-        $category->status = $request->input('status');
+        $category->is_featured = $request->input('is_featured');
 
         // Handle photo upload and replace existing photo
         if ($request->hasFile('photo')) {

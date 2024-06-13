@@ -22,7 +22,8 @@
                             </div>
                             <div class="form-group">
                                 <label for="description">Description</label>
-                                <textarea class="form-control summernote @error('description') is-invalid @enderror" id="description" name="description" required>{!! old('description', $category->description) !!}</textarea>
+                                <textarea class="form-control summernote @error('description') is-invalid @enderror" id="description" name="description"
+                                    required>{!! old('description', $category->description) !!}</textarea>
                                 @error('description')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
@@ -42,13 +43,14 @@
                                 @enderror
                             </div>
                             <div class="form-group">
-                                <label for="status">Status</label>
-                                <select class="form-control @error('status') is-invalid @enderror" id="status"
-                                    name="status" required>
-                                    <option value="active"
-                                        {{ old('status', $category->status) == 'active' ? 'selected' : '' }}>Active</option>
-                                    <option value="inactive"
-                                        {{ old('status', $category->status) == 'inactive' ? 'selected' : '' }}>Inactive
+                                <label for="is_featured">isFeatured</label>
+                                <select class="form-control @error('is_featured') is-invalid @enderror" id="is_featured"
+                                    name="is_featured" required>
+                                    <option value="yes"
+                                        {{ old('is_featured', $category->is_featured) == 'yes' ? 'selected' : '' }}>Yes
+                                    </option>
+                                    <option value="no"
+                                        {{ old('is_featured', $category->is_featured) == 'no' ? 'selected' : '' }}>No
                                     </option>
                                 </select>
                                 @error('status')

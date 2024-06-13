@@ -1,3 +1,7 @@
+@php
+    // Fetch the first settings record from the database
+    $settings = App\Models\Setting::first();
+@endphp
 <!-- SECTION -->
 <div class="section">
     <!-- container -->
@@ -68,12 +72,12 @@
                                 $discountPercentage = round(($product->discount / $product->price) * 100, 2);
                             @endphp
                             @if ($product->discount > 0)
-                                {{ $newPrice ?? $product->price }} ৳
+                                {{ $newPrice ?? $product->price }}{{ $settings->currency_symbol }}
                             @else
-                                {{ $product->price }} ৳
+                                {{ $product->price }}{{ $settings->currency_symbol }}
                             @endif
                             @if ($product->discount > 0)
-                                <del class="product-old-price">{{ $product->price }} ৳</del>
+                                <del class="product-old-price">{{ $product->price }}{{ $settings->currency_symbol }}</del>
                             @endif
                         </h3>
                         @if ($product->stock > 0)

@@ -20,7 +20,8 @@
                             </div>
                             <div class="form-group">
                                 <label for="description">Description</label>
-                                <textarea class="form-control summernote @error('description') is-invalid @enderror" id="description" name="description" required>{{ old('description') }}</textarea>
+                                <textarea class="form-control summernote @error('description') is-invalid @enderror" id="description" name="description"
+                                    required>{{ old('description') }}</textarea>
                                 @error('description')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
@@ -34,15 +35,15 @@
                                 @enderror
                             </div>
                             <div class="form-group">
-                                <label for="status">Status</label>
-                                <select class="form-control @error('status') is-invalid @enderror" id="status"
-                                    name="status" required>
+                                <label for="status">is_featured</label>
+                                <select class="form-control @error('is_featured') is-invalid @enderror" id="is_featured"
+                                    name="is_featured" required>
                                     <option value="">Select Status</option>
-                                    <option value="active" {{ old('status') == 'active' ? 'selected' : '' }}>Active</option>
-                                    <option value="inactive" {{ old('status') == 'inactive' ? 'selected' : '' }}>Inactive
+                                    <option value="yes" {{ old('status') == 'yes' ? 'selected' : '' }}>Yes</option>
+                                    <option value="no" {{ old('status') == 'no' ? 'selected' : '' }}>No
                                     </option>
                                 </select>
-                                @error('status')
+                                @error('is_featured')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>

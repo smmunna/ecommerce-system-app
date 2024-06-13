@@ -1,4 +1,6 @@
 @php
+    $settings = App\Models\Setting::first();
+
     $recentProducts = DB::table('products')->orderBy('created_at', 'desc')->take(3)->get();
     $recentProducts2 = DB::table('products')
         ->orderBy('created_at', 'desc')
@@ -78,12 +80,12 @@
                                         </h3>
                                         <h4 class="product-price">
                                             @if ($product->discount > 0)
-                                                {{ $newPrice ?? $product->price }} tk
+                                                {{ $newPrice ?? $product->price }}{{ $settings->currency_symbol }}
                                             @else
-                                                {{ $product->price }} Tk
+                                                {{ $product->price }}{{ $settings->currency_symbol }}
                                             @endif
                                             @if ($product->discount > 0)
-                                                <del class="product-old-price">{{ $product->price }} tk</del>
+                                                <del class="product-old-price">{{ $product->price }}{{ $settings->currency_symbol }}</del>
                                             @endif
                                         </h4>
                                     </div>
@@ -123,12 +125,12 @@
                                         </h3>
                                         <h4 class="product-price">
                                             @if ($product->discount > 0)
-                                                {{ $newPrice ?? $product->price }} tk
+                                                {{ $newPrice ?? $product->price }}{{ $settings->currency_symbol }}
                                             @else
-                                                {{ $product->price }} Tk
+                                                {{ $product->price }}{{ $settings->currency_symbol }}
                                             @endif
                                             @if ($product->discount > 0)
-                                                <del class="product-old-price">{{ $product->price }} tk</del>
+                                                <del class="product-old-price">{{ $product->price }}{{ $settings->currency_symbol }}</del>
                                             @endif
                                         </h4>
                                     </div>
@@ -142,7 +144,7 @@
 
             <div class="col-md-4 col-xs-6">
                 <div class="section-title">
-                    <h4 class="title">Price < 5000৳</h4>
+                    <h4 class="title">Price < 5000{{ $settings->currency_symbol }}</h4>
                             <div class="section-nav">
                                 <div id="slick-nav-4" class="products-slick-nav"></div>
                             </div>
@@ -180,12 +182,12 @@
                                             </h3>
                                             <h4 class="product-price">
                                                 @if ($product->discount > 0)
-                                                    {{ $newPrice ?? $product->price }} tk
+                                                    {{ $newPrice ?? $product->price }}{{ $settings->currency_symbol }}
                                                 @else
-                                                    {{ $product->price }} Tk
+                                                    {{ $product->price }}{{ $settings->currency_symbol }}
                                                 @endif
                                                 @if ($product->discount > 0)
-                                                    <del class="product-old-price">{{ $product->price }} tk</del>
+                                                    <del class="product-old-price">{{ $product->price }}{{ $settings->currency_symbol }}</del>
                                                 @endif
                                             </h4>
                                         </div>
@@ -228,12 +230,12 @@
                                             </h3>
                                             <h4 class="product-price">
                                                 @if ($product->discount > 0)
-                                                    {{ $newPrice ?? $product->price }} tk
+                                                    {{ $newPrice ?? $product->price }}{{ $settings->currency_symbol }}
                                                 @else
-                                                    {{ $product->price }} Tk
+                                                    {{ $product->price }}{{ $settings->currency_symbol }}
                                                 @endif
                                                 @if ($product->discount > 0)
-                                                    <del class="product-old-price">{{ $product->price }} tk</del>
+                                                    <del class="product-old-price">{{ $product->price }}{{ $settings->currency_symbol }}</del>
                                                 @endif
                                             </h4>
                                         </div>
@@ -251,7 +253,7 @@
 
             <div class="col-md-4 col-xs-6">
                 <div class="section-title">
-                    <h4 class="title">Price > 5000৳</h4>
+                    <h4 class="title">Price > 5000{{ $settings->currency_symbol }}</h4>
                     <div class="section-nav">
                         <div id="slick-nav-5" class="products-slick-nav"></div>
                     </div>
@@ -289,12 +291,12 @@
                                             </h3>
                                             <h4 class="product-price">
                                                 @if ($product->discount > 0)
-                                                    {{ $newPrice ?? $product->price }} tk
+                                                    {{ $newPrice ?? $product->price }}{{ $settings->currency_symbol }}
                                                 @else
-                                                    {{ $product->price }} Tk
+                                                    {{ $product->price }}{{ $settings->currency_symbol }}
                                                 @endif
                                                 @if ($product->discount > 0)
-                                                    <del class="product-old-price">{{ $product->price }} tk</del>
+                                                    <del class="product-old-price">{{ $product->price }}{{ $settings->currency_symbol }}</del>
                                                 @endif
                                             </h4>
                                         </div>
@@ -337,12 +339,12 @@
                                             </h3>
                                             <h4 class="product-price">
                                                 @if ($product->discount > 0)
-                                                    {{ $newPrice ?? $product->price }} tk
+                                                    {{ $newPrice ?? $product->price }}{{ $settings->currency_symbol }}
                                                 @else
-                                                    {{ $product->price }} Tk
+                                                    {{ $product->price }}{{ $settings->currency_symbol }}
                                                 @endif
                                                 @if ($product->discount > 0)
-                                                    <del class="product-old-price">{{ $product->price }} tk</del>
+                                                    <del class="product-old-price">{{ $product->price }}{{ $settings->currency_symbol }}</del>
                                                 @endif
                                             </h4>
                                         </div>
