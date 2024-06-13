@@ -104,15 +104,36 @@
                                                     @endif
                                                 @endfor
                                             </div>
+                                            {{-- Product buttons --}}
                                             <div class="product-btns">
-                                                <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span
-                                                        class="tooltipp">add to wishlist</span></button>
-                                                <button class="add-to-compare"><i class="fa fa-exchange"></i><span
-                                                        class="tooltipp">add to compare</span></button>
-                                                <button class="quick-view"><a
-                                                        href="{{ route('product.details', $product->slug) }}"><i
-                                                            class="fa fa-eye"></i><span class="tooltipp">quick
-                                                            view</span></a></button>
+                                                @if (Auth::check())
+                                                    <button class="add-to-wishlist">
+                                                        <form action="{{ route('add.wishlist') }}" method="post"
+                                                            style="display: inline;">
+                                                            @csrf
+                                                            <input type="hidden" name="product_id"
+                                                                value="{{ $product->id }}">
+                                                            <button type="submit"><i class="fa fa-heart-o"></i><span
+                                                                    class="tooltipp">add to wishlist</span></button>
+                                                        </form>
+                                                    </button>
+                                                    <button class="add-to-compare"><i class="fa fa-exchange"></i><span
+                                                            class="tooltipp">add to compare</span></button>
+                                                    <button class="quick-view"><a
+                                                            href="{{ route('product.details', $product->slug) }}"><i
+                                                                class="fa fa-eye"></i><span class="tooltipp">quick
+                                                                view</span></a></button>
+                                                @else
+                                                    <button class="add-to-wishlist"><a href="{{ route('login') }}"><i
+                                                                class="fa fa-heart-o"></i><span class="tooltipp">add to
+                                                                wishlist</span></a></button>
+                                                    <button class="add-to-compare"><i class="fa fa-exchange"></i><span
+                                                            class="tooltipp">add to compare</span></button>
+                                                    <button class="quick-view"><a
+                                                            href="{{ route('product.details', $product->slug) }}"><i
+                                                                class="fa fa-eye"></i><span class="tooltipp">quick
+                                                                view</span></a></button>
+                                                @endif
                                             </div>
                                         </div>
                                         <!--Form for add to cart  -->

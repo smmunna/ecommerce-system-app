@@ -154,10 +154,10 @@
         <div id="review-form">
             <form class="review-form" method="POST" action="{{ route('reviews.store') }}">
                 @csrf
-                <input class="input" type="text" value="{{ auth()->user()->name }}" placeholder="Your Name"
-                    disabled>
-                <input class="input" type="email" name="email" value="{{ auth()->user()->email }}"
-                    placeholder="Your Email" readonly>
+                <input class="input" type="text" value="{{ auth()->check() ? auth()->user()->name : '' }}"
+                    placeholder="Your Name" disabled>
+                <input class="input" type="email" name="email"
+                    value="{{ auth()->check() ? auth()->user()->email : '' }}" placeholder="Your Email" readonly>
                 <input class="input" type="hidden" name="product_id" value="{{ $product->id }}">
                 <textarea class="input" name="review" placeholder="Your Review"></textarea>
                 <div class="input-rating">

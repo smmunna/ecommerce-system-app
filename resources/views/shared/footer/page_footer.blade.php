@@ -1,6 +1,8 @@
 @php
     // Fetch the first settings record from the database
     $settings = App\Models\Setting::first();
+    $recentCategories = DB::table('categories')->orderBy('created_at', 'desc')->limit(5)->get();
+
 @endphp
 <!-- FOOTER -->
 <footer id="footer">
@@ -26,14 +28,15 @@
                     <div class="footer">
                         <h3 class="footer-title">Categories</h3>
                         <ul class="footer-links">
-                            <li><a href="#">Hot deals</a></li>
-                            <li><a href="#">Laptops</a></li>
-                            <li><a href="#">Smartphones</a></li>
-                            <li><a href="#">Cameras</a></li>
-                            <li><a href="#">Accessories</a></li>
+                            @foreach ($recentCategories as $category)
+                                <li><a
+                                        href="{{ route('all_products', ['category' => $category->id]) }}">{{ $category->name }}</a>
+                                </li>
+                            @endforeach
                         </ul>
                     </div>
                 </div>
+
 
                 <div class="clearfix visible-xs"></div>
 

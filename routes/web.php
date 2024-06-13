@@ -12,6 +12,7 @@ use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\SizeController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\WishlistController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -55,8 +56,14 @@ Route::get('/cart', function () {
     return view('pages.cart.cart');
 })->name('myCartItem');
 
+// Wishlist 
+Route::get('/wishlist', [WishlistController::class, 'wishlist'])->name('wishlist');
+Route::post('/add-to-wishlist', [WishlistController::class, 'addToWishlist'])->name('add.wishlist');
+Route::delete('/wishlist/remove/{id}', [WishlistController::class, 'removeFromWishlist'])->name('remove.wishlist');
 
+// Users
 Route::resource('users', UserController::class);
+// Reviews
 Route::resource('reviews', ReviewController::class);
 
 
