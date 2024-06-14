@@ -248,43 +248,6 @@ class ProductController extends Controller
     }
 
     // Filtering for Product Page
-    // public function allProductPage(Request $request)
-    // {
-    //     $query = Product::query()
-    //         ->join('brands', 'products.brand_id', '=', 'brands.id')
-    //         ->join('categories', 'products.cat_id', '=', 'categories.id')
-    //         ->select('products.*', 'brands.name as brand_name', 'categories.name as category_name');
-
-    //     // Sorting logic
-    //     $sort = $request->input('sort', '0');
-    //     $query->orderBy('products.created_at', $sort == '1' ? 'asc' : 'desc');
-
-    //     // Category filtering
-    //     if ($request->has('categories')) {
-    //         $query->whereIn('products.cat_id', $request->input('categories'));
-    //     }
-
-    //     // Brand filtering
-    //     if ($request->has('brands')) {
-    //         $query->whereIn('products.brand_id', $request->input('brands'));
-    //     }
-
-    //     // Price range filtering
-    //     if ($request->has(['price_min', 'price_max']) && is_numeric($request->input('price_min')) && is_numeric($request->input('price_max'))) {
-    //         $priceMin = (float) $request->input('price_min');
-    //         $priceMax = (float) $request->input('price_max');
-    //         if ($priceMin <= $priceMax) {
-    //             $query->whereBetween('products.price', [$priceMin, $priceMax]);
-    //         }
-    //     }
-
-    //     // Pagination
-    //     $perPage = $request->input('show', 20);
-    //     $products = $query->paginate($perPage);
-
-    //     return view('pages.product.all_product', compact('products'));
-    // }
-
     public function allProductPage(Request $request)
     {
         $query = Product::query()
@@ -297,8 +260,8 @@ class ProductController extends Controller
         $query->orderBy('products.created_at', $sort == '1' ? 'asc' : 'desc');
 
         // Category filtering
-        if ($request->input('category') && $request->input('category') != '0') {
-            $query->where('products.cat_id', $request->input('category'));
+        if ($request->has('categories')) {
+            $query->whereIn('products.cat_id', $request->input('categories'));
         }
 
         // Search term filtering (by slug or title)
@@ -322,6 +285,25 @@ class ProductController extends Controller
             if ($priceMin <= $priceMax) {
                 $query->whereBetween('products.price', [$priceMin, $priceMax]);
             }
+        }
+
+        // Pagination
+        $perPage = $request->input('show', 20);
+        $products = $query->paginate($perPage);
+
+        return view('pages.product.all_product', compact('products'));
+    }
+
+    // Footer category
+    public function footerCategory(Request $request)
+    {
+        $query = Product::query()
+            ->join('brands', 'products.brand_id', '=', 'brands.id')
+            ->join('categories', 'products.cat_id', '=', 'categories.id')
+            ->select('products.*', 'brands.name as brand_name', 'categories.name as category_name');
+
+        if ($request->input('category') && $request->input('category') != '0') {
+            $query->where('products.cat_id', $request->input('category'));
         }
 
         // Pagination

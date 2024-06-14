@@ -32,7 +32,8 @@ Route::get('/', function () {
     return view('welcome');
 })->name('home');
 
-Route::get('/all-products', [ProductController::class, 'allProductPage'])->name('all_products');
+Route::get('/all-products', [ProductController::class, 'allProductPage'])->name('all_products'); //store page filtering and showing all products
+Route::get('/category-products', [ProductController::class, 'footerCategory'])->name('category_products'); //footer category filtering
 
 Route::get('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/login', [AuthController::class, 'authentication'])->name('login.user');
