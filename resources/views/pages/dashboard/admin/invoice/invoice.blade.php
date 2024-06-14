@@ -34,21 +34,6 @@
                 background-color: #f2f2f2;
             }
 
-            .signature-section {
-                margin-top: 40px;
-                display: flex;
-                justify-content: space-between;
-            }
-
-            .signature-box {
-                border: 1px solid #000;
-                width: 200px;
-                height: 100px;
-                text-align: center;
-                line-height: 100px;
-                font-size: 14px;
-            }
-
             .page-header,
             .invoice-info,
             .payment-methods,
@@ -99,8 +84,8 @@
             </div>
             <div class="col-sm-4">
                 <h3>Invoice Details</h3>
-                <p><b>Invoice #{{ $orderDetails[0]->order_id }}</b></p>
-                <p><b>Order ID:</b> {{ $orderDetails[0]->transaction_id }}</p>
+                <p><b>Order ID #{{ $orderDetails[0]->order_id }}</b></p>
+                <p><b>Transaction ID:</b> {{ $orderDetails[0]->transaction_id }}</p>
                 <p><b>Order Date:</b> {{ $orderDetails[0]->created_at }}</p>
                 <p><b>Status:</b> {{ $orderDetails[0]->status }}</p>
             </div>
@@ -143,10 +128,11 @@
         <div class="row payment-methods">
             <div class="col-6">
                 <p class="lead">Payment Methods:</p>
-                <img src="{{ asset('dashboard_files/dist/img/credit/visa.png') }}" alt="Visa">
-                <img src="{{ asset('dashboard_files/dist/img/credit/mastercard.png') }}" alt="Mastercard">
+                <img src="{{ asset('dashboard_files/dist/img/credit/bkash.png') }}" height="80" width="120"
+                    alt="Visa">
+                {{-- <img src="{{ asset('dashboard_files/dist/img/credit/mastercard.png') }}" alt="Mastercard">
                 <img src="{{ asset('dashboard_files/dist/img/credit/american-express.png') }}" alt="American Express">
-                <img src="{{ asset('dashboard_files/dist/img/credit/paypal2.png') }}" alt="Paypal">
+                <img src="{{ asset('dashboard_files/dist/img/credit/paypal2.png') }}" alt="Paypal"> --}}
             </div>
             <div class="col-6">
                 <div class="totals">
@@ -165,24 +151,13 @@
                 </div>
             </div>
         </div>
-        <hr>
-        <div class="signature-section" style="display: flex; justify-content: space-around; gap:12px">
-            <div class="signature-box"
-                style="border: 1px solid #0000002c;
-            width: 200px;
-            height: 100px;
-            text-align: center;
-            line-height: 100px;
-            font-size: 14px;">
+        <div class="pt-4" style="display: flex; justify-content: space-around; gap:12px">
+            <div>
+                <hr style="width:200px">
                 <p style="color: #827e7ec4">Customer Signature</p>
             </div>
-            <div class="signature-box"
-                style="border: 1px solid #00000020;
-            width: 200px;
-            height: 100px;
-            text-align: center;
-            line-height: 100px;
-            font-size: 14px;">
+            <div>
+                <hr style="width:200px">
                 <p style="color: #827e7ec4">Admin Signature</p>
             </div>
         </div>

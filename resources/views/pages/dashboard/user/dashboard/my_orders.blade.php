@@ -25,7 +25,7 @@
                                     <td>{{ $order->id }}</td>
                                     <td>{{ $order->name }}</td>
                                     <td>{{ $order->email }}</td>
-                                    <td>{{ $order->amount }}<span
+                                    <td>{{ number_format($order->amount) }}<span
                                             style="font-size: 22px">{{ $settings->currency_symbol }}</span></td>
                                     <td>{{ $order->created_at }}</td>
                                     <td>{{ $order->status }}</td>
