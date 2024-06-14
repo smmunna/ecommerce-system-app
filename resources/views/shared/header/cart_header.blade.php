@@ -19,9 +19,18 @@
     });
 @endphp
 
+<!-- Cart For mobile devices -->
+<div>
+    <a href="{{ route('myCartItem') }}">
+        <i class="fa fa-shopping-cart" style="cursor: pointer"></i>
+        <span>Your Cart</span>
+        <div class="qty">{{ $totalQuantity }}</div>
+    </a>
+</div>
+<!-- /End Cart For mobile devices -->
 
-<!-- Cart -->
-<div class="dropdown">
+<!--  Cart For PC/Laptop devices -->
+{{-- <div class="dropdown">
     <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
         <i class="fa fa-shopping-cart" style="cursor: pointer"></i>
         <span>Your Cart</span>
@@ -52,7 +61,7 @@
                         </h4>
                     </div>
                     <div>
-                        {{-- Delete from the cart --}}
+                        <!-- Delete from the cart -->
                         <form id="deleteForm" action="{{ route('deleteFromCart', $item->id) }}" method="POST">
                             @csrf
                             @method('DELETE')
@@ -73,6 +82,5 @@
             <a href="{{ route('checkoutPage') }}">Checkout <i class="fa fa-arrow-circle-right"></i></a>
         </div>
     </div>
-</div>
-
-<!-- /Cart -->
+</div> --}}
+<!--  Cart For PC/Laptop devices -->

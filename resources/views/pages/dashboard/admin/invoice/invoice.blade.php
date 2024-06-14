@@ -110,7 +110,7 @@
                                     <td>{{ $detail->item_id }}</td>
                                     <td>{{ $detail->product_title }}</td>
                                     <td>{{ $detail->quantity }}</td>
-                                    <td>{{ number_format($detail->price * $detail->quantity, 2) }}<span
+                                    <td>{{ number_format($detail->price, 2) }}<span
                                             style="font-size: 20px">{{ $settings->currency_symbol }}</span></td>
                                 </tr>
                             @endforeach
@@ -144,7 +144,8 @@
                         </tr>
                         <tr>
                             <th>Total:</th>
-                            <td>{{ number_format($orderDetails[0]->amount, 2) }}<span style="font-size: 20px">{{ $settings->currency_symbol }}</span></td>
+                            <td>{{ number_format($orderDetails[0]->amount, 2) }}<span
+                                    style="font-size: 20px">{{ $settings->currency_symbol }}</span></td>
                         </tr>
                     </table>
                 </div>

@@ -88,7 +88,8 @@
                                                     {{ $product->price }}{{ $settings->currency_symbol }}
                                                 @endif
                                                 @if ($product->discount > 0)
-                                                    <del class="product-old-price">{{ $product->price }}{{ $settings->currency_symbol }}</del>
+                                                    <del
+                                                        class="product-old-price">{{ $product->price }}{{ $settings->currency_symbol }}</del>
                                                 @endif
                                             </h4>
                                             <div class="product-rating">
@@ -146,6 +147,7 @@
                                             <input type="hidden" name="size" value="None">
                                             <input type="hidden" name="color" value="None">
                                             <input type="hidden" name="quantity" value="1">
+                                            <input type="hidden" name="amount" value="{{ $newPrice }}">
                                             <input type="hidden" name="product_id" value="{{ $product->id }}">
                                             <div class="add-to-cart">
                                                 @if ($product->stock > 0)

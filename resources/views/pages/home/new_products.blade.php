@@ -147,6 +147,7 @@
                                             <input type="hidden" name="size" value="None">
                                             <input type="hidden" name="color" value="None">
                                             <input type="hidden" name="quantity" value="1">
+                                            <input type="hidden" name="amount" value="{{$newPrice}}">
                                             <input type="hidden" name="product_id" value="{{ $product->id }}">
                                             <div class="add-to-cart">
                                                 @if ($product->stock > 0)
