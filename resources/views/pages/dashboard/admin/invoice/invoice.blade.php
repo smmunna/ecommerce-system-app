@@ -102,7 +102,7 @@
                 <p><b>Invoice #{{ $orderDetails[0]->order_id }}</b></p>
                 <p><b>Order ID:</b> {{ $orderDetails[0]->transaction_id }}</p>
                 <p><b>Order Date:</b> {{ $orderDetails[0]->created_at }}</p>
-                <p><b>Currency:</b> {{ $orderDetails[0]->currency }}</p>
+                <p><b>Status:</b> {{ $orderDetails[0]->status }}</p>
             </div>
         </div>
 
@@ -125,14 +125,19 @@
                                     <td>{{ $detail->item_id }}</td>
                                     <td>{{ $detail->product_title }}</td>
                                     <td>{{ $detail->quantity }}</td>
-                                    <td>{{ number_format($detail->price * $detail->quantity, 2) }}
-                                        {{ $settings->currency_symbol }}</td>
+                                    <td>{{ number_format($detail->price * $detail->quantity, 2) }}<span
+                                            style="font-size: 20px">{{ $settings->currency_symbol }}</span></td>
                                 </tr>
                             @endforeach
                         </tbody>
                     </table>
                 </div>
             </div>
+        </div>
+
+        {{-- Order notes --}}
+        <div>
+            <p><strong>Order note:</strong> {{ $orderDetails[0]->order_note }}</p>
         </div>
 
         <div class="row payment-methods">
@@ -145,7 +150,7 @@
             </div>
             <div class="col-6">
                 <div class="totals">
-                    <h3>Total Amount</h3>
+                    <h5>Total Amount</h5>
                     <table class="table">
                         <tr>
                             <th>Shipping:</th>
@@ -153,7 +158,8 @@
                         </tr>
                         <tr>
                             <th>Total:</th>
-                            <td>{{ number_format($orderDetails[0]->amount, 2) }} {{ $settings->currency_symbol }}</td>
+                            <td>{{ number_format($orderDetails[0]->amount, 2) }}<span
+                                    style="font-size: 20px">{{ $settings->currency_symbol }}</span></td>
                         </tr>
                     </table>
                 </div>
@@ -162,22 +168,22 @@
         <hr>
         <div class="signature-section" style="display: flex; justify-content: space-around; gap:12px">
             <div class="signature-box"
-                style="border: 1px solid #000;
+                style="border: 1px solid #0000002c;
             width: 200px;
             height: 100px;
             text-align: center;
             line-height: 100px;
             font-size: 14px;">
-                <p>Customer Signature</p>
+                <p style="color: #827e7ec4">Customer Signature</p>
             </div>
             <div class="signature-box"
-                style="border: 1px solid #000;
+                style="border: 1px solid #00000020;
             width: 200px;
             height: 100px;
             text-align: center;
             line-height: 100px;
             font-size: 14px;">
-                <p>Admin Signature</p>
+                <p style="color: #827e7ec4">Admin Signature</p>
             </div>
         </div>
 

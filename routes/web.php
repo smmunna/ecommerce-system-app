@@ -106,9 +106,6 @@ Route::middleware('checkUserRole:admin')->prefix('admin')->group(function () {
 
     // Invoice
     Route::get('/invoice/{id}', [OrderController::class, 'invoiceAdmin'])->name('admin.invoices');
-    // Route::get('/orders/{id}', [OrderController::class, 'show'])->name('admin.orders.show');
-    // Route::patch('/orders/{id}/updateStatus', [OrderController::class, 'updateStatus'])->name('admin.orders.updateStatus');
-    // Route::delete('/orders/{id}', [OrderController::class, 'destroy'])->name('admin.orders.destroy');
 
     // Add more routes as needed...
 });
@@ -122,6 +119,8 @@ Route::middleware('checkUserRole:user')->prefix('user')->group(function () {
     Route::get('/profile', [AuthController::class, 'profile'])->name('user.profile');
     Route::get('/edit-profile', [AuthController::class, 'editProfile'])->name('user.edit.profile');
     // Add more routes as needed...
+    // Invoices
+    Route::get('/invoice/{id}', [OrderController::class, 'invoiceAdmin'])->name('user.invoices');
 });
 
 // Logout User

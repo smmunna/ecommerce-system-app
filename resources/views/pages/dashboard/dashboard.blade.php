@@ -6,11 +6,18 @@
         @include('pages.dashboard.admin.dashboard.dashboard', [
             'totalRegisterUser' => $totalRegisterUser,
             'totalReviews' => $totalReviews,
+            'totalOrders' => $totalOrders,
+            'totalEarnings' => $totalEarnings,
+            'recentOrders' => $recentOrders,
         ])
     @endif
 
     @if (auth()->user()->role == 'user')
-        <h3>User Dashboard</h3>
+        @include('pages.dashboard.user.dashboard.dashboard', [
+            'totalCostByUser' => $totalCostByUser,
+            'totalOrdersByUser' => $totalOrdersByUser,
+            'myOrders' => $myOrders,
+        ])
     @endif
 
 @endsection

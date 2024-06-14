@@ -1,8 +1,5 @@
-@extends('layouts.dashboard_layout')
-@section('title', 'Orders List')
-
-@section('content')
-    <div class="container">
+<div class="container mt-3">
+    <div>
         @php
             $settings = App\Models\Setting::first();
         @endphp
@@ -23,7 +20,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($orders as $order)
+                            @foreach ($recentOrders as $order)
                                 <tr>
                                     <td>{{ $order->id }}</td>
                                     <td>{{ $order->name }}</td>
@@ -39,16 +36,19 @@
                                             <div class="form-group">
                                                 <select name="status" class="form-control">
                                                     <option value="processing"
-                                                        {{ $order->status == 'processing' ? 'selected' : '' }}>Processing
+                                                        {{ $order->status == 'processing' ? 'selected' : '' }}>
+                                                        Processing
                                                     </option>
                                                     <option value="pending"
-                                                        {{ $order->status == 'pending' ? 'selected' : '' }}>Pending</option>
+                                                        {{ $order->status == 'pending' ? 'selected' : '' }}>Pending
+                                                    </option>
                                                     <option value="completed"
                                                         {{ $order->status == 'completed' ? 'selected' : '' }}>Completed
                                                     </option>
                                                 </select>
                                             </div>
-                                            <button type="submit" class="btn btn-primary btn-sm ml-2" {{ $order->status == 'completed' ? 'disabled' : '' }}>Update</button>
+                                            <button type="submit" class="btn btn-primary btn-sm ml-2"
+                                                {{ $order->status == 'completed' ? 'disabled' : '' }}>Update</button>
                                         </form>
                                     </td>
                                     <td>
@@ -63,31 +63,4 @@
             </div>
         </div>
     </div>
-@endsection
-
-@push('styles')
-    <style>
-        .table-responsive {
-            overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
-        }
-
-        table {
-            min-width: 100%;
-        }
-
-        table th,
-        table td {
-            text-align: center;
-        }
-
-        .form-inline {
-            display: flex;
-            align-items: center;
-        }
-
-        .form-group {
-            margin-right: 10px;
-        }
-    </style>
-@endpush
+</div>

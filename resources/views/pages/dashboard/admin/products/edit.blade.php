@@ -46,12 +46,12 @@
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label for="price">Price</label>
-                                    <input type="number" step="0.01" class="form-control" id="price" name="price"
+                                    <input type="number" class="form-control" id="price" name="price"
                                         value="{{ old('price', $product->price) }}">
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label for="discount">Discount</label>
-                                    <input type="number" step="0.01" class="form-control" id="discount" name="discount"
+                                    <input type="number" class="form-control" id="discount" name="discount"
                                         value="{{ old('discount', $product->discount) }}">
                                 </div>
                             </div>

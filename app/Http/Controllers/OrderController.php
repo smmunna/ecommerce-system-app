@@ -61,6 +61,18 @@ class OrderController extends Controller
     }
 
     // Update order status
+    // public function updateOrderStatus(Request $request, $id)
+    // {
+    //     $request->validate([
+    //         'status' => 'required|in:processing,pending,completed',
+    //     ]);
+
+    //     $order = Order::findOrFail($id);
+    //     $order->status = $request->status;
+    //     $order->save();
+
+    //     return redirect()->back()->with('success', 'Order status updated successfully!');
+    // }
     public function updateOrderStatus(Request $request, $id)
     {
         $request->validate([
@@ -68,11 +80,27 @@ class OrderController extends Controller
         ]);
 
         $order = Order::findOrFail($id);
+        $previousStatus = $order->status; // Store the previous status
+
         $order->status = $request->status;
         $order->save();
 
+        // If the status is changed to completed, deduct the product quantities
+        if ($previousStatus !== 'completed' && $order->status === 'completed') {
+            // Get the order items
+            $orderItems = DB::table('order_items')->where('order_id', $id)->get();
+
+            foreach ($orderItems as $item) {
+                // Deduct the product stock using raw queries
+                DB::table('products')
+                    ->where('id', $item->product_id)
+                    ->decrement('stock', $item->quantity);
+            }
+        }
+
         return redirect()->back()->with('success', 'Order status updated successfully!');
     }
+
 
     // Invoice for admin
     public function invoiceAdmin($id)
