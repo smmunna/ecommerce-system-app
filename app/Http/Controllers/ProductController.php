@@ -263,6 +263,11 @@ class ProductController extends Controller
         if ($request->has('categories')) {
             $query->whereIn('products.cat_id', $request->input('categories'));
         }
+        
+        // Category filtering for search box from header
+        if ($request->has('category')) {
+            $query->where('products.cat_id', $request->input('category'));
+        }
 
         // Search term filtering (by slug or title)
         if ($request->has('search')) {

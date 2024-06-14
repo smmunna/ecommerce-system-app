@@ -54,7 +54,7 @@
         $settings = App\Models\Setting::first();
     @endphp
 
-    <section id="invoice" class="invoice p-3">
+    <section id="invoice" class="invoice p-4">
         <div class="row">
             <div class="col-12">
                 <h2 class="page-header">
@@ -144,14 +144,13 @@
                         </tr>
                         <tr>
                             <th>Total:</th>
-                            <td>{{ number_format($orderDetails[0]->amount, 2) }}<span
-                                    style="font-size: 20px">{{ $settings->currency_symbol }}</span></td>
+                            <td>{{ number_format($orderDetails[0]->amount, 2) }}<span style="font-size: 20px">{{ $settings->currency_symbol }}</span></td>
                         </tr>
                     </table>
                 </div>
             </div>
         </div>
-        <div class="pt-4" style="display: flex; justify-content: space-around; gap:12px">
+        {{-- <div class="pt-4" style="display: flex; justify-content: space-around; gap:12px">
             <div>
                 <hr style="width:200px">
                 <p style="color: #827e7ec4">Customer Signature</p>
@@ -160,7 +159,7 @@
                 <hr style="width:200px">
                 <p style="color: #827e7ec4">Admin Signature</p>
             </div>
-        </div>
+        </div> --}}
 
         <button class="no-print btn btn-primary" onclick="printInvoice()">Print Invoice</button>
     </section>

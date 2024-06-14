@@ -15,31 +15,33 @@
                     <button type="submit" class="btn btn-primary mb-2">Search</button>
                 </form>
 
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th>Created At</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($users as $user)
+                <div style="max-height: 400px; overflow-y: auto;">
+                    <table class="table table-bordered">
+                        <thead>
                             <tr>
-                                <td>{{ $user->id }}</td>
-                                <td>{{ $user->name }}</td>
-                                <td>{{ $user->email }}</td>
-                                <td>{{ $user->created_at->format('d M Y, H:i A') }}</td>
-                                <td>
-                                    <a href="{{ route('admin.users.show', $user->id) }}"
-                                        class="btn btn-info btn-sm">View</a>
-                                </td>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Created At</th>
+                                <th>Action</th>
                             </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            @foreach ($users as $user)
+                                <tr>
+                                    <td>{{ $user->id }}</td>
+                                    <td>{{ $user->name }}</td>
+                                    <td>{{ $user->email }}</td>
+                                    <td>{{ $user->created_at->format('d M Y, H:i A') }}</td>
+                                    <td>
+                                        <a href="{{ route('admin.users.show', $user->id) }}"
+                                            class="btn btn-info btn-sm">View</a>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
                 <div class="mt-3">
                     {{ $users->appends(['search' => request()->input('search')])->links() }}
                 </div>

@@ -22,7 +22,7 @@
                         </div>
                         <div class="shop-body">
                             <h3>{{ $category->name }}<br>Collection</h3>
-                            <a href="{{ route('all_products', ['category' => $category->id]) }}" class="cta-btn">Shop now
+                            <a href="{{ route('category_products', ['category' => $category->id]) }}" class="cta-btn">Shop now
                                 <i class="fa fa-arrow-circle-right"></i></a>
                         </div>
                     </div>
