@@ -108,6 +108,9 @@ Route::middleware('checkUserRole:admin')->prefix('admin')->group(function () {
     // Invoice
     Route::get('/invoice/{id}', [OrderController::class, 'invoiceAdmin'])->name('admin.invoices');
 
+    // Reports
+    Route::get('/orders/reports', [OrderController::class, 'ordersReport'])->name('orders.reports');
+
     // Add more routes as needed...
 });
 

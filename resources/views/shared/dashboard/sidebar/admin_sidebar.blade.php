@@ -42,6 +42,14 @@
                 </p>
             </a>
         </li>
+        <li class="nav-item">
+            <a href="{{ route('orders.reports') }}" class="nav-link">
+                <i class="nav-icon fas fa-book"></i>
+                <p>
+                    Reports
+                </p>
+            </a>
+        </li>
 
         <li class="nav-item">
             <a href="#" class="nav-link">

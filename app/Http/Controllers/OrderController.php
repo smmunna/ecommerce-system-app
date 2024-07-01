@@ -6,6 +6,7 @@ use App\Models\Cart;
 use App\Models\Order;
 use App\Models\OrderItem;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -108,7 +109,6 @@ class OrderController extends Controller
         return redirect()->back()->with('success', 'Order status updated successfully!');
     }
 
-
     // Invoice for admin
     public function invoiceAdmin($id)
     {
@@ -137,5 +137,48 @@ class OrderController extends Controller
             ->get();
 
         return view('pages.dashboard.admin.invoice.invoice', compact('orderDetails'));
+    }
+
+    // Orders report
+    public function ordersReport(Request $request)
+    {
+        $query = Order::query();
+
+        $filter = $request->input('filter', 'today');
+        $from_date = $request->input('from_date');
+        $to_date = $request->input('to_date');
+        $status = $request->input('status');
+        $name = $request->input('name');
+        $email = $request->input('email');
+
+        if ($filter == 'today') {
+            $query->whereDate('created_at', Carbon::today());
+        } elseif ($filter == 'last_7_days') {
+            $query->whereBetween('created_at', [Carbon::now()->subDays(7), Carbon::now()]);
+        } elseif ($filter == 'last_month') {
+            $query->whereMonth('created_at', Carbon::now()->subMonth()->month);
+        } elseif ($filter == 'current_month') {
+            $query->whereMonth('created_at', Carbon::now()->month);
+        } elseif ($from_date && $to_date) {
+            $query->whereBetween('created_at', [$from_date, $to_date]);
+        }
+
+        if ($status) {
+            $query->where('status', $status);
+        }
+
+        if ($name) {
+            $query->where('name', 'like', '%' . $name . '%');
+        }
+
+        if ($email) {
+            $query->where('email', 'like', '%' . $email . '%');
+        }
+
+
+        $orders = $query->orderBy('created_at', 'desc')->paginate(10);
+        $totalAmount = $query->sum('amount');
+
+        return view('pages.dashboard.admin.reports.report', compact('orders', 'totalAmount'));
     }
 }
