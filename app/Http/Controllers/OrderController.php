@@ -54,25 +54,32 @@ class OrderController extends Controller
     }
 
     // Get all orders for admin
-    public function getAllOrders()
+    public function getAllOrders(Request $request)
     {
-        $orders = Order::orderBy('created_at', 'desc')->get(); // Fetch all orders and order by created_at in descending order
+        $query = Order::query();
+
+        if ($request->has('status') && $request->status != '') {
+            $query->where('status', $request->status);
+        }
+
+        if ($request->has('name') && $request->name != '') {
+            $query->where('name', 'like', '%' . $request->name . '%');
+        }
+
+        if ($request->has('email') && $request->email != '') {
+            $query->where('email', 'like', '%' . $request->email . '%');
+        }
+
+        if ($request->has('from_date') && $request->has('to_date') && $request->from_date != '' && $request->to_date != '') {
+            $query->whereBetween('created_at', [$request->from_date, $request->to_date]);
+        }
+
+        $orders = $query->orderBy('created_at', 'desc')->paginate(10); // Pagination with 10 items per page
+
         return view('pages.dashboard.admin.orders.orders', compact('orders'));
     }
 
     // Update order status
-    // public function updateOrderStatus(Request $request, $id)
-    // {
-    //     $request->validate([
-    //         'status' => 'required|in:processing,pending,completed',
-    //     ]);
-
-    //     $order = Order::findOrFail($id);
-    //     $order->status = $request->status;
-    //     $order->save();
-
-    //     return redirect()->back()->with('success', 'Order status updated successfully!');
-    // }
     public function updateOrderStatus(Request $request, $id)
     {
         $request->validate([
